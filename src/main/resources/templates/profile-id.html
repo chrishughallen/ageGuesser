@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sign up</title>
+</head>
+<body>
+<h1>My Profile</h1>
+
+<h1>AGE</h1>
+<h1 id="age" type="number" th:text="*{profile.age}"></h1>
+
+<h2>PICTURE!</h2>
+<h2 type="text" id="picture" th:text="*{profile.picture}" ></h2>
+
+<form th:action="@{/guess}" method="POST" th:object="${guess}">
+    <input type="hidden" th:field="*{age}">
+    <label for="guess">Guess how old this user is...</label>
+    <input id="guess" type="number" th:field="*{guess}">
+    <button>GUESS!</button>
+</form>
+
+<a th:if="*{isOwner}" th:href="@{/editProfile}">Edit my profile</a>
+
+</form>
+</body>
+</html>

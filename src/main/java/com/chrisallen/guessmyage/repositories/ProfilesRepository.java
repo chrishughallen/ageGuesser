@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface ProfilesRepository extends CrudRepository<Profile, Long> {
     Profile findById(long id);
     Profile findByUser(User user);
+
 }

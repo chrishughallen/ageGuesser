@@ -1,5 +1,6 @@
 package com.chrisallen.guessmyage.controllers;
 
+import com.chrisallen.guessmyage.models.Guess;
 import com.chrisallen.guessmyage.models.Profile;
 import com.chrisallen.guessmyage.models.User;
 import com.chrisallen.guessmyage.repositories.ProfilesRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -21,6 +23,8 @@ public class UserController {
     private UserService userSvc;
     private ProfileService profileSvc;
     private PasswordEncoder passwordEncoder;
+
+    private Math math;
 
 
     public UserController(UsersRepository usersRepository, ProfilesRepository profilesRepo, UserService userSvc, ProfileService profileSvc, PasswordEncoder passwordEncoder) {
@@ -85,6 +89,31 @@ public class UserController {
         profilesRepo.save(profile);
         return "redirect:/profile";
     }
+
+    @GetMapping("/profile/{id}")
+    public String showprofile(@PathVariable long id, Model model) {
+        Profile profile = profilesRepo.findById(id);
+        model.addAttribute("guess", new Guess());
+        model.addAttribute("profile", profile);
+        if(profilesRepo.findById(id).getUser() == userSvc.currentUser()){
+            model.addAttribute("isOwner", true);
+        }
+        return "/profile-id";
+    }
+
+
+
+    @PostMapping("/guess")
+    public String checkGuess(@ModelAttribute Guess guess){
+        int userGuess = guess.getGuess();
+        if(userGuess == 2){
+            System.out.println("CORRECT GUESS!");
+        }
+        return"redirect:/welcome";
+
+    }
+
+
 
 
 
