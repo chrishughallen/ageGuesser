@@ -17,4 +17,6 @@ public class ProfileService {
     public boolean userHasProfile(){
         return profileRepo.findByUser(userSvc.currentUser()) != null;
     }
+
+
 }
