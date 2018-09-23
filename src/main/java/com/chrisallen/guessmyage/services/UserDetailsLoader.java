@@ -2,7 +2,7 @@ package com.chrisallen.guessmyage.services;
 
 import com.chrisallen.guessmyage.models.User;
 import com.chrisallen.guessmyage.models.UserWithRoles;
-import com.chrisallen.guessmyage.repositories.Users;
+import com.chrisallen.guessmyage.repositories.UsersRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,15 +11,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsLoader implements UserDetailsService {
 
-    private final Users users;
+    private final UsersRepository usersRepository;
 
-    public UserDetailsLoader(Users users) {
-        this.users = users;
+    public UserDetailsLoader(UsersRepository usersRepository) {
+        this.usersRepository = usersRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = users.findByUsername(username);
+        User user = usersRepository.findByUsername(username);
         if(user == null){
             throw new UsernameNotFoundException("No user found for " + username);
         }

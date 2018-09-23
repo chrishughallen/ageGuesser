@@ -32,8 +32,8 @@ public class UserWithRoles extends User implements UserDetails {
         return true;
     }
 
-    public UserWithRoles(String username, String password) {
-        super(username, password);
+    public UserWithRoles(String email, String username, String password) {
+        super(email, username, password);
     }
 
     public UserWithRoles() {
