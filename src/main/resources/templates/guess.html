@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Guess</title>
+</head>
+<body>
+<h1>Guess Age!</h1>
+
+
+
+<h1 id="age" type="hidden" th:text="*{user.age}"></h1>
+
+<form th:action="@{/guess}" method="POST" th:object="${guess}">
+
+    <label for="guess">Guess</label>
+    <input type="text" id="guess" th:field="*{age}" />
+    <br/>
+
+    <input value="Guess!" type="submit" />
+
+</form>
+
+</form>
+</body>
+</html>

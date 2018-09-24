@@ -1,21 +1,53 @@
 package com.chrisallen.guessmyage.models;
 
+
+import javax.persistence.*;
+
+@Entity
+@Table(name="guesses")
 public class Guess {
 
-    private int guess;
 
-    public Guess(int guess) {
-        this.guess = guess;
-    }
+    @Id
+    @GeneratedValue
+    private long id;
+
+    @Column
+    private int age;
+
+    @OneToOne
+    User user;
 
     public Guess() {
     }
 
-    public int getGuess() {
-        return guess;
+    public Guess(int age, User user) {
+        this.age = age;
+        this.user = user;
     }
 
-    public void setGuess(int guess) {
-        this.guess = guess;
+    public long getId() {
+        return id;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }

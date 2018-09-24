@@ -8,11 +8,14 @@
 <h1>My Profile</h1>
 
 
-    <h1 id="age" type="number" th:text="*{profile.age}"></h1>
 
-    <h2 type="text" id="picture" th:text="*{profile.picture}" ></h2>
+    <h1 id="username" type="text" th:text="*{user.username}"></h1>
 
-<a th:href="@{/editProfile}">Edit my profile</a>
+    <h1 id="email" type="email" th:text="*{user.email}"></h1>
+
+    <h1 id="age" type="number" th:text="*{user.age}"></h1>
+
+    <h2 type="text" id="picture" th:text="*{user.pic_url}" ></h2>
 
 </form>
 </body>

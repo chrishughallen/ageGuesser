@@ -10,14 +10,28 @@
 
     <label for="email">Email</label>
     <input type="email" id="email" th:field="*{email}" />
+    <br/>
 
     <label for="username">Username</label>
     <input id="username" th:field="*{username}" />
+    <br/>
+
+
+    <label for="age">Age</label>
+    <input id="age" type="number" th:field="*{age}" />
+    <br/>
+
+
+    <label for="pic_url">Picture</label>
+    <input id="pic_url" type="text" th:field="*{pic_url}" />
+    <br/>
 
     <label for="password">Password</label>
     <input id="password" type="password" th:field="*{password}" />
+    <br/>
 
-    <input value="Sign me up!" type="submit" />
+    <input value="Sign up!" type="submit" />
+
 </form>
 </body>
 </html>
