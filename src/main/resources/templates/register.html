@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8" />
-    <title>Sign up</title>
+<head th:replace="partials/head :: header('Register')">
 </head>
-<body>
+
+<nav th:replace="partials/navbar :: navbar"></nav>
+
+<div class="container">
+
 <h1>Create an account</h1>
 <form th:action="@{/register}" method="POST" th:object="${user}">
 
@@ -16,16 +18,6 @@
     <input id="username" th:field="*{username}" />
     <br/>
 
-
-    <label for="age">Age</label>
-    <input id="age" type="number" th:field="*{age}" />
-    <br/>
-
-
-    <label for="pic_url">Picture</label>
-    <input id="pic_url" type="text" th:field="*{pic_url}" />
-    <br/>
-
     <label for="password">Password</label>
     <input id="password" type="password" th:field="*{password}" />
     <br/>
@@ -33,5 +25,7 @@
     <input value="Sign up!" type="submit" />
 
 </form>
+
+</div>
 </body>
 </html>

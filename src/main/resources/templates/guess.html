@@ -2,24 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Guess</title>
+    <title>Sign up</title>
 </head>
 <body>
-<h1>Guess Age!</h1>
+<h1>Guess</h1>
 
 
+<h1>Guess the age of this user</h1>
 
-<h1 id="age" type="hidden" th:text="*{user.age}"></h1>
+<h1 th:text="*{user.username}"> - User</h1>
+<h1 th:text="*{profile.age}"> - Age</h1>
 
-<form th:action="@{/guess}" method="POST" th:object="${guess}">
 
-    <label for="guess">Guess</label>
-    <input type="text" id="guess" th:field="*{age}" />
+<form th:action="@{/guess}" th:object="${guess}" method="POST">
+
+    <label for="age">age</label>
+    <input id="age" th:field="*{age}" />
+
     <br/>
 
-    <input value="Guess!" type="submit" />
+    <button th:type="submit">Submit Guess</button>
 
 </form>
+
 
 </form>
 </body>

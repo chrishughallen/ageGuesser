@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/head :: header('Index')">
+<head th:replace="partials/head :: header('User Profile')">
 
 </head>
 
@@ -9,12 +9,12 @@
 
 <div class="container">
 
-    <h1>This is the home page</h1>
+    <h1 id="age" type="text" th:text="${profile.age}"></h1>
 
-    <a class="btn btn-success" href="/register">Sign Up</a>
-    <br/>
-    <a class="btn btn-primary" href="/login">Login</a>
+
+
 
 </div>
+
 
 <footer th:replace="partials/footer :: footer"></footer>
