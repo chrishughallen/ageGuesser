@@ -2,6 +2,7 @@ package com.chrisallen.guessmyage.services;
 
 
 import com.chrisallen.guessmyage.models.User;
+import com.chrisallen.guessmyage.repositories.ScoreRepository;
 import com.chrisallen.guessmyage.repositories.UsersRepository;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,9 +15,11 @@ import java.time.Period;
 public class UserService {
     UsersRepository userRepo;
     UserDetailsLoader userDetails;
+    ScoreRepository scoreRepo;
 
-    public UserService( UsersRepository userRepo, UserDetailsLoader userDetails) {
+    public UserService(UsersRepository userRepo, UserDetailsLoader userDetails, ScoreRepository scoreRepo) {
         this.userRepo = userRepo;
+        this.scoreRepo = scoreRepo;
         this.userDetails = userDetails;
     }
 
@@ -47,6 +50,11 @@ public class UserService {
         User user = userRepo.findUser();
         return user.getId();
     }
+
+//   public int getCorrectGuesses(User user){
+//        long id = user.getId();
+//        return scoreRepo.findAllByCorrect(id).size();
+//   }
 
 
 

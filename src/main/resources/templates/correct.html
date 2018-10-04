@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/head :: header('Login')">
+<head th:replace="partials/head :: header('User Page')">
 
 </head>
+
 <nav th:replace="partials/navbar :: navbar"></nav>
+
 
 <div class="container">
 
 
-<h1 style="color:green">CORRECT!</h1>
-    <a th:href="@{/randomGuess}"><h3>Guess Another!</h3></a>
+    <div class="correct">
+        <h2>CORRECT!</h2>
+
+        <br />
+        <a th:href="@{/randomGuess}"><button class="btn btn-info">Next!</button></a>
+    </div>
 </div>
-
-
 
 <footer th:replace="partials/footer :: footer"></footer>

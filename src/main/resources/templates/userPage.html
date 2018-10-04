@@ -21,7 +21,7 @@
 
 
     <form th:if="!${guessed}" th:action="@{/guess/{id}(id=${user.id})}" method="POST" th:object="${Guess}">
-        <input type="number" id="age" th:field="*{age}" />
+        <input th:width="50px" class="form-control" type="number" id="age" th:field="*{age}" />
         <br/>
         <button class="btn btn-success">Submit!</button>
     </form>

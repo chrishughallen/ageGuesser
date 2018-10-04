@@ -1,8 +1,10 @@
 package com.chrisallen.guessmyage.controllers;
 
 import com.chrisallen.guessmyage.models.Guess;
+import com.chrisallen.guessmyage.models.Score;
 import com.chrisallen.guessmyage.models.User;
 import com.chrisallen.guessmyage.repositories.GuessRepository;
+import com.chrisallen.guessmyage.repositories.ScoreRepository;
 import com.chrisallen.guessmyage.repositories.UsersRepository;
 import com.chrisallen.guessmyage.services.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,7 @@ public class UserController {
     private UsersRepository usersRepo;
     private UserService userSvc;
     private GuessRepository guessRepo;
+    private ScoreRepository scoreRepo;
     private PasswordEncoder passwordEncoder;
 
     Date now = new Date();
@@ -32,10 +35,15 @@ public class UserController {
 
 
 
-    public UserController(UsersRepository usersRepository, UserService userSvc, GuessRepository guessRepo, PasswordEncoder passwordEncoder) {
+    public UserController(UsersRepository usersRepository,
+                          UserService userSvc,
+                          GuessRepository guessRepo,
+                          ScoreRepository scoreRepo,
+                          PasswordEncoder passwordEncoder) {
         this.usersRepo = usersRepository;
         this.userSvc = userSvc;
         this.guessRepo = guessRepo;
+        this.scoreRepo = scoreRepo;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -49,6 +57,8 @@ public class UserController {
     public String loggedIn(Model model){
         model.addAttribute("user", userSvc.currentUser());
         model.addAttribute("age", userSvc.getUserAge(userSvc.currentUser()));
+//        model.addAttribute("correctGuesses", userSvc.getCorrectGuesses(userSvc.currentUser()));
+//        model.addAttribute("totalGuesses", userSvc.amountOfGuesses());
         return "/welcome";
     }
 
@@ -78,12 +88,43 @@ public class UserController {
 
     @PostMapping("/guess/{id}")
     public String checkGuess(@PathVariable long id, @ModelAttribute Guess guess, Model model ){
-        User user = usersRepo.findById(id);
-        guess.setUser(usersRepo.findById(id));
-        guessRepo.save(guess);
-        if(guess.getAge() == userSvc.getUserAge(user)){
-            return "/correct";
+        if(userSvc.isLoggedIn()){
+            Score score = new Score();
+            score.setGuesser(userSvc.currentUser());
+            score.setGuessee(usersRepo.findById(id));
+            score.setAge(guess.getAge());
+            if(guess.getAge() == userSvc.getUserAge(usersRepo.findById(id))){
+                score.setCorrect(true);
+            }
+            if(guess.getAge() != userSvc.getUserAge(usersRepo.findById(id))){
+                score.setCorrect(false);
+            }
+            scoreRepo.save(score);
+            guessRepo.save(guess);
+            if(guess.getAge() == userSvc.getUserAge(usersRepo.findById(id))){
+                return "redirect:/correct/" + id;
+            }
+            return "redirect:/incorrect/" + id;
         }
+
+        if(!userSvc.isLoggedIn()) {
+            User user = usersRepo.findById(id);
+            guess.setUser(usersRepo.findById(id));
+            guessRepo.save(guess);
+            if (guess.getAge() == userSvc.getUserAge(user)) {
+                return "redirect:/correct/" + id;
+            }
+        }
+            return "redirect:/incorrect/" + id;
+    }
+
+    @GetMapping("/correct/{id}")
+    public String correctGuess(@PathVariable long id, Model model){
+        return "/correct";
+    }
+
+    @GetMapping("/incorrect/{id}")
+    public String incorrectGuess(@PathVariable long id, Model model){
         return "/incorrect";
     }
 

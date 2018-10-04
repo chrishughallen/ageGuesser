@@ -3,7 +3,29 @@ body{
 }
 
 main{
-    width: 90%;
+    width: 50%;
     margin: 0 auto;
     text-align: center;
+}
+
+.correct{
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+    background:#00B647;
+    padding-top:10%;
+    padding-bottom: 10%;
+    border-radius:5%;
+}
+
+.incorrect{
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+    background:#D90908;
+    padding-top:10%;
+    padding-bottom: 10%;
+    border-radius:5%;
 }
