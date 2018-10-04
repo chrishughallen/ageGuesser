@@ -14,14 +14,19 @@
     <input type="email" id="email" th:field="*{email}" />
     <br/>
 
-    <label for="username">Username</label>
-    <input id="username" th:field="*{username}" />
-    <br/>
-
     <label for="password">Password</label>
     <input id="password" type="password" th:field="*{password}" />
     <br/>
 
+    <label for="birthYear">Birthday (dd/mm/yyyy)</label>
+    <input id="birthYear" type="date" th:field="*{dob}" />
+
+    <br/>
+
+    <label for="photo">Photo</label>
+    <input id="photo" type="text" th:field="*{photo}" />
+
+    <br/>
     <input value="Sign up!" type="submit" />
 
 </form>

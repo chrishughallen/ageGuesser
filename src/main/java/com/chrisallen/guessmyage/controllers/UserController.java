@@ -1,11 +1,9 @@
 package com.chrisallen.guessmyage.controllers;
 
-import com.chrisallen.guessmyage.models.Profile;
+import com.chrisallen.guessmyage.models.Guess;
 import com.chrisallen.guessmyage.models.User;
 import com.chrisallen.guessmyage.repositories.GuessRepository;
-import com.chrisallen.guessmyage.repositories.ProfileRepository;
 import com.chrisallen.guessmyage.repositories.UsersRepository;
-import com.chrisallen.guessmyage.services.ProfileService;
 import com.chrisallen.guessmyage.services.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -15,38 +13,42 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Controller
 public class UserController {
 
     private UsersRepository usersRepo;
     private UserService userSvc;
-    private PasswordEncoder passwordEncoder;
     private GuessRepository guessRepo;
-    private ProfileRepository profileRepo;
-    private ProfileService profileSvc;
+    private PasswordEncoder passwordEncoder;
+
+    Date now = new Date();
+    String pattern = "yyyy-MM-dd";
+    SimpleDateFormat formatter = new SimpleDateFormat(pattern);
 
 
 
-    public UserController(ProfileService profileSvc, ProfileRepository profileRepo, GuessRepository guessRepo, UsersRepository usersRepository, UserService userSvc, PasswordEncoder passwordEncoder) {
+
+    public UserController(UsersRepository usersRepository, UserService userSvc, GuessRepository guessRepo, PasswordEncoder passwordEncoder) {
         this.usersRepo = usersRepository;
         this.userSvc = userSvc;
-        this.passwordEncoder = passwordEncoder;
         this.guessRepo = guessRepo;
-        this.profileRepo = profileRepo;
-        this.profileSvc = profileSvc;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
     @GetMapping("/")
     public String home(Model model) {
-        if(!userSvc.isLoggedIn()){
-            model.addAttribute("loggedIn", true);
-        }
-        return "/index";
+        return "redirect:/randomGuess";
     }
 
     @GetMapping("/welcome")
-    public String loggedIn(){
+    public String loggedIn(Model model){
+        model.addAttribute("user", userSvc.currentUser());
+        model.addAttribute("age", userSvc.getUserAge(userSvc.currentUser()));
         return "/welcome";
     }
 
@@ -58,82 +60,37 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String saveUser(@ModelAttribute User user){
+    public String saveUser(@ModelAttribute User user) throws ParseException {
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
+        user.setUsername(user.getEmail());
         usersRepo.save(user);
         return "redirect:/login";
     }
 
-    @GetMapping("/profile")
-    public String newProfile(Model model){
-        if(!userSvc.isLoggedIn()){
-            return "redirect:/login";
-        }
-        if(profileSvc.hasProfile()){
-            return "redirect:/myprofile";
-        }
-        model.addAttribute("profile", new Profile());
-        return "/profile";
-    }
-
-
-
-    @PostMapping("/profile")
-    public String saveProfile(@ModelAttribute Profile profile){
-        profile.setUser(userSvc.currentUser());
-        profileRepo.save(profile);
-        return"redirect:/myprofile";
-    }
-
     @GetMapping("/user/{id}")
-    public String showUser(@PathVariable Long id, Model model){
-        model.addAttribute("profile", profileRepo.findOne(id));
-        return "/viewUser";
+    public String getUserPage(@PathVariable long id, Model model){
+        model.addAttribute("user", usersRepo.findById(id));
+        model.addAttribute("age", userSvc.getUserAge(usersRepo.findById(id)));
+        model.addAttribute("Guess", new Guess());
+        return "/userPage";
     }
 
-    @GetMapping("/myprofile")
-    public String showProfile(Model model){
-        model.addAttribute("profile", profileRepo.findByUser(userSvc.currentUser()));
-        model.addAttribute("user", userSvc.currentUser());
-        return "/myprofile";
+    @PostMapping("/guess/{id}")
+    public String checkGuess(@PathVariable long id, @ModelAttribute Guess guess, Model model ){
+        User user = usersRepo.findById(id);
+        guess.setUser(usersRepo.findById(id));
+        guessRepo.save(guess);
+        if(guess.getAge() == userSvc.getUserAge(user)){
+            return "/correct";
+        }
+        return "/incorrect";
     }
 
-
-    @GetMapping("/editprofile")
-    public String editProfile(Model model){
-        model.addAttribute("profile", profileRepo.findByUser(userSvc.currentUser()));
-        return "/editprofile";
+    @GetMapping("/randomGuess")
+    public String getRandomUser(){
+        User user = usersRepo.findById(userSvc.getRandomUserId());
+        return "redirect:/user/" + user.getId();
     }
-
-    @PostMapping("/editprofile")
-    public String saveProfileEdit(@ModelAttribute Profile profile){
-        profileRepo.save(profile);
-        return "redirect:/profile";
-    }
-
-
-
-//    @GetMapping("/guess")
-//    public String guessGet(Model model){
-//        model.addAttribute("profile", profileRepo.findByUser(userSvc.currentUser()));
-//        model.addAttribute("user", userSvc.currentUser());
-//        model.addAttribute("guess", new Guess());
-//        return "/guess";
-//    }
-//
-//    @PostMapping("/guess")
-//    public String guessShow(@ModelAttribute Guess guess){
-//        guess.setUser(userSvc.currentUser());
-//        guessRepo.save(guess);
-//        System.out.println(guess.getUser().getUsername());
-//        System.out.println(guess.getAge());
-//        return"redirect:/guess";
-//    }
-
-
-
-
-
 
 }

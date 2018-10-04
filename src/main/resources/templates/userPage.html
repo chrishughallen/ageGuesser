@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/head :: header('User Page')">
+
+</head>
+
+<nav th:replace="partials/navbar :: navbar"></nav>
+
+
+<div class="container">
+
+
+<main>
+    <h1 th:if="${correct}">CORRECT!</h1>
+    <h1 th:if="${incorrect}">incorrect!</h1>
+
+    <img th:src="${user.photo}" alt="">
+    <h4 th:text="${age}"></h4>
+
+    <h4>GUESS THE USERS AGE!</h4>
+
+
+    <form th:if="!${guessed}" th:action="@{/guess/{id}(id=${user.id})}" method="POST" th:object="${Guess}">
+        <input type="number" id="age" th:field="*{age}" />
+        <br/>
+        <button class="btn btn-success">Submit!</button>
+    </form>
+
+    <br />
+    <a th:if="${guessed}" th:href="@{/randomGuess}"><h3>next!</h3></a>
+</main>
+</div>
+
+<footer th:replace="partials/footer :: footer"></footer>

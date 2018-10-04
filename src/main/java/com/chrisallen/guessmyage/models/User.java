@@ -20,21 +20,30 @@ public class User {
         @Column(nullable = false)
         private String password;
 
+        @Column(nullable = false)
+        private java.sql.Date dob;
+
+        @Column(nullable = false)
+        private String photo;
+
         public User() {
 
         }
 
-        public User(String email, String username, String password) {
+        public User(String email, String password, java.sql.Date dob, String photo) {
                 this.email = email;
-                this.username = username;
                 this.password = password;
+                this.dob = dob;
+                this.photo = photo;
         }
 
         public User(User copy) {
                 id = copy.id;
                 email = copy.email;
-                username = copy.username;
+                username = copy.email;
                 password = copy.password;
+                dob = copy.dob;
+                photo = copy.photo;
         }
 
         public long getId() {
@@ -64,4 +73,12 @@ public class User {
         public String getEmail() { return email; }
 
         public void setEmail(String email) { this.email = email; }
+
+        public java.sql.Date getDob() { return dob; }
+
+        public void setDob(java.sql.Date dob) { this.dob = dob; }
+
+        public String getPhoto() { return photo; }
+
+        public void setPhoto(String photo) { this.photo = photo; }
 }

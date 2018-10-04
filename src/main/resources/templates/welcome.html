@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/head :: header('Index')">
+
+</head>
+
+<nav th:replace="partials/navbar :: navbar"></nav>
+
+
+<div class="container">
+
+    <h1>You are logged in!</h1>
+
+    <h1>Email: <span th:text="${user.username}"></span></h1>
+    <h1>Age: <span th:text="${age}"></span></h1>
+    <h1>Photo: <span th:text="${user.photo}"></span></h1>
+
+    <form th:action="@{/logout}" th:method="post">
+        <button class="btn btn-danger" style="margin-top: 8px">Logout</button>
+    </form>
+
+
+</div>
+
+<footer th:replace="partials/footer :: footer"></footer>

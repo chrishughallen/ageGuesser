@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Table(name="guesses")
 public class Guess {
 
-
     @Id
     @GeneratedValue
     private long id;
@@ -16,15 +15,17 @@ public class Guess {
     private int age;
 
     @OneToOne
-    User user;
-
-    public Guess() {
-    }
+    private User user;
 
     public Guess(int age, User user) {
         this.age = age;
         this.user = user;
     }
+
+
+    public Guess() {
+    }
+
 
     public long getId() {
         return id;
@@ -49,5 +50,4 @@ public class Guess {
     public void setUser(User user) {
         this.user = user;
     }
-
 }
