@@ -1,15 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
+
+
 body{
-    background:azure;
+    background: #2196f3;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f44336, #2196f3);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f44336, #2196f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.navbar-brand{
+    font-family: Gloria Hallelujah;
 }
 
 main{
     width: 50%;
     margin: 0 auto;
+    margin-top: 35%;
     text-align: center;
 }
 
+img{
+    margin-bottom: 5%;
+}
+
 .correct{
-    width: 50%;
+    width: 80%;
     margin: 0 auto;
     text-align: center;
     color: white;
@@ -20,7 +35,7 @@ main{
 }
 
 .incorrect{
-    width: 50%;
+    width: 80%;
     margin: 0 auto;
     text-align: center;
     color: white;

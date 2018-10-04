@@ -14,14 +14,14 @@
     <h1 th:if="${correct}">CORRECT!</h1>
     <h1 th:if="${incorrect}">incorrect!</h1>
 
-    <img th:src="${user.photo}" alt="">
-    <h4 th:text="${age}"></h4>
+    <img style="border-radius:15%;" th:src="${user.photo}" alt="">
+    <!--<h4 th:text="${age}"></h4>-->
 
-    <h4>GUESS THE USERS AGE!</h4>
+    <!--<h4 style="color:white">How old do I look?</h4>-->
 
 
     <form th:if="!${guessed}" th:action="@{/guess/{id}(id=${user.id})}" method="POST" th:object="${Guess}">
-        <input th:width="50px" class="form-control" type="number" id="age" th:field="*{age}" />
+        <input placeholder="How old do I look?" class="form-control" type="text" id="age" th:field="*{age}" />
         <br/>
         <button class="btn btn-success">Submit!</button>
     </form>
