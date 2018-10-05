@@ -8,27 +8,49 @@
 
 
 <div class="container">
+    <main>
+
+        <img style="border-radius:15%;" th:src="${user.photo}" alt="">
+        <input placeholder="How old do I look?" class="form-control" id="guess">
+        <br />
+        <!--Button to trigger modal and check guess-->
+        <button data-backdrop="static" data-keyboard="false" id="checkGuess" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Submit</button>
 
 
-<main>
-    <h1 th:if="${correct}">CORRECT!</h1>
-    <h1 th:if="${incorrect}">incorrect!</h1>
+    <!--Modal that displays outcome of guess and button to go to next user page - cant be closed-->
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div id="outcomeModal" class="modal-content">
+                    <h3 id="outcome" class="text-center"></h3>
+                    <form th:action="@{/guess/{id}(id=${user.id})}" method="POST" th:object="${Guess}">
+                        <button id="resetColorBtn" class="btn btn-success">Next</button>
+                        <input type="hidden" id="age" th:field="*{age}" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
 
-    <img style="border-radius:15%;" th:src="${user.photo}" alt="">
-    <!--<h4 th:text="${age}"></h4>-->
-
-    <!--<h4 style="color:white">How old do I look?</h4>-->
-
-
-    <form th:if="!${guessed}" th:action="@{/guess/{id}(id=${user.id})}" method="POST" th:object="${Guess}">
-        <input placeholder="How old do I look?" class="form-control" type="text" id="age" th:field="*{age}" />
-        <br/>
-        <button class="btn btn-success">Submit!</button>
-    </form>
-
-    <br />
-    <a th:if="${guessed}" th:href="@{/randomGuess}"><h3>next!</h3></a>
-</main>
 </div>
 
+
+
+
+
 <footer th:replace="partials/footer :: footer"></footer>
+
+
+
+<script th:inline="javascript">
+    var age = /*[[${age}]]*/ {};
+    console.log(age);
+
+    $('#checkGuess').click(function(){
+        if(age == $('#guess').val() ) {
+            $('#outcome').text("CORRECT!");
+            $('#age').val($('#guess').val())
+        }
+        else $('#outcome').text("INCORRECT!")
+             $('#age').val($('#guess').val())
+    });
+</script>

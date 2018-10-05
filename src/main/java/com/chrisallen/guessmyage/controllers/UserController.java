@@ -57,8 +57,6 @@ public class UserController {
     public String loggedIn(Model model){
         model.addAttribute("user", userSvc.currentUser());
         model.addAttribute("age", userSvc.getUserAge(userSvc.currentUser()));
-//        model.addAttribute("correctGuesses", userSvc.getCorrectGuesses(userSvc.currentUser()));
-//        model.addAttribute("totalGuesses", userSvc.amountOfGuesses());
         return "/welcome";
     }
 
@@ -100,32 +98,18 @@ public class UserController {
                 score.setCorrect(false);
             }
             scoreRepo.save(score);
+            guess.setUser(userSvc.currentUser());
             guessRepo.save(guess);
-            if(guess.getAge() == userSvc.getUserAge(usersRepo.findById(id))){
-                return "redirect:/correct/" + id;
-            }
-            return "redirect:/incorrect/" + id;
+
+            return "redirect:/randomGuess";
         }
 
         if(!userSvc.isLoggedIn()) {
             User user = usersRepo.findById(id);
             guess.setUser(usersRepo.findById(id));
             guessRepo.save(guess);
-            if (guess.getAge() == userSvc.getUserAge(user)) {
-                return "redirect:/correct/" + id;
-            }
         }
-            return "redirect:/incorrect/" + id;
-    }
-
-    @GetMapping("/correct/{id}")
-    public String correctGuess(@PathVariable long id, Model model){
-        return "/correct";
-    }
-
-    @GetMapping("/incorrect/{id}")
-    public String incorrectGuess(@PathVariable long id, Model model){
-        return "/incorrect";
+            return "redirect:/randomGuess";
     }
 
     @GetMapping("/randomGuess")

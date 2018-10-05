@@ -2,6 +2,7 @@
 
 
 body{
+    font-family: Gloria Hallelujah;
     background: #2196f3;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #f44336, #2196f3);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #f44336, #2196f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -15,8 +16,24 @@ body{
 main{
     width: 50%;
     margin: 0 auto;
-    margin-top: 35%;
+    margin-top: 10%;
     text-align: center;
+}
+
+#outcomeModal{
+    margin-top: 5%;
+    padding-bottom:5%;
+    font-family: Gloria Hallelujah;
+    color: white;
+    background: #e1eec3;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f05053, #e1eec3);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f05053, #e1eec3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+
+
+.modal{
+    margin-top: 25vh;
 }
 
 img{
