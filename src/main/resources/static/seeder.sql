@@ -27,3 +27,7 @@ VALUES(1,"dave@gmail.com","dave@gmail.com","$2a$10$Vu..NnZcQ4h6aK.2TEtjXuA8uOzpK
   (19,"dave91@gmail.com","dave91@gmail.com","$2a$10$Vu..NnZcQ4h6aK.2TEtjXuA8uOzpK8Io6t03Ap8WuUHlwE57AAcZS","1955-01-11","https://fer-uig.glitch.me/"),
   (20,"dave207@gmail.com","dave207@gmail.com","$2a$10$Vu..NnZcQ4h6aK.2TEtjXuA8uOzpK8Io6t03Ap8WuUHlwE57AAcZS","1921-01-11","https://fer-uig.glitch.me/")
 ;
+
+INSERT INTO guesses(id, age, user_id)
+    VALUES(1,29,220),(2,29,220),(3,34,220),(4,28,220),(5,24,220),(6,27,220),(7,36,220),
+      (8,29,220),(9,29,220),(10,34,220),(11,28,220),(12,24,220),(13,27,220),(14,36,220);

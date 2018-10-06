@@ -40,6 +40,12 @@ public class UserService {
         return age;
     }
 
+    public boolean over18(String newDob){
+        LocalDate dob = LocalDate.parse(newDob);
+        int age = Period.between(dob, LocalDate.now()).getYears();
+        return age>=18;
+    }
+
 
     public boolean userExists(String username){
         return userRepo.findByUsername(username) != null;

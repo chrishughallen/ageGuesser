@@ -7,9 +7,7 @@
 
 <div class="container">
 <h1>Log In</h1>
-<div th:if="${param.error}">
-    Invalid Username and Password.
-</div>
+
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
@@ -23,12 +21,12 @@
 
     <label for="password">Password</label>
     <input class="form-control" id="password" name="password" type="password" />
+    <p th:if="${param.error}">Invalid email or password</p>
 
     <input class="btn btn-primary" type="submit" value="Log In" />
 </form>
-<a th:type="button" href="/register">New user? Sign Up</a>
-    <br />
-    <a th:href="@{/randomGuess}"><h3>Just Start Guessing!</h3></a>
+<a style="color:white;" th:type="button" href="/register">New user? Sign Up</a>
+
 </div>
 
 

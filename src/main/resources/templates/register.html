@@ -13,30 +13,38 @@
     <label for="email">Email</label>
     <br/>
     <input class="form-control" type="email" id="email" th:field="*{email}" />
+    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+    <p th:if="${userExists}">Sorry, that email address is already in our system</p>
+
     <br/>
 
     <label for="password">Password</label>
     <br/>
     <input class="form-control" id="password" type="password" th:field="*{password}" />
+    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
     <br/>
 
 
     <label for="birthYear">Birthday (dd/mm/yyyy)</label>
     <br/>
     <input class="form-control" id="birthYear" type="date" th:field="*{dob}" />
+    <p th:if="${noDob}">Please enter your birthday</p>
+    <p th:if="${underAge}">Sorry, you must be 18 or older to sign up</p>
 
     <br/>
 
     <label for="photo">Photo</label>
     <br/>
     <input class="form-control" id="photo" type="text" th:field="*{photo}" />
+    <p th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></p>
 
     <br/>
-   <button class="btn btn-success">Sign Up!</button>
+   <button id="signUp" class="btn btn-success">Sign Up!</button>
 
 </form>
 
 </div>
 <footer th:replace="partials/footer :: footer"></footer>
+
 </body>
 </html>

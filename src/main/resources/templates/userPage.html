@@ -10,7 +10,7 @@
 <div class="container">
     <main>
 
-        <img style="border-radius:15%;" th:src="${user.photo}" alt="">
+        <img class="userImg" th:src="${user.photo}" alt="">
         <input placeholder="How old do I look?" class="form-control" id="guess">
         <br />
         <!--Button to trigger modal and check guess-->
@@ -42,10 +42,42 @@
 
 
 <script th:inline="javascript">
+
+    function isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
+    (function() {
+        $('#checkGuess').addClass('disabled');
+        $('#guess').keyup(function() {
+
+            var empty = false;
+
+            $('#guess').each(function() {
+                if ($(this).val() == '' || !isNumeric($(this).val())) {
+                    empty = true;
+                }
+            });
+
+            if (empty) {
+                $('#checkGuess').addClass('disabled'); // updated according to http://stackoverflow.com/questions/7637790/how-to-remove-disabled-attribute-with-jquery-ie
+            } else {
+                $('#checkGuess').removeClass('disabled'); // updated according to http://stackoverflow.com/questions/7637790/how-to-remove-disabled-attribute-with-jquery-ie
+            }
+        });
+    })();
+
+
     var age = /*[[${age}]]*/ {};
     console.log(age);
 
     $('#checkGuess').click(function(){
+
+        if($('#guess').val().length === 0){
+            $('#outcome').text("Wrong! At least guess something!")
+            $('#age').val(0)
+        }
+
         if(age == $('#guess').val() ) {
             $('#outcome').text("CORRECT!");
             $('#age').val($('#guess').val())

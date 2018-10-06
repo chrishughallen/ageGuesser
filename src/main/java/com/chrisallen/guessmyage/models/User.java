@@ -1,6 +1,7 @@
 package com.chrisallen.guessmyage.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="users")
@@ -12,18 +13,21 @@ public class User {
         private long id;
 
         @Column (unique = true, nullable = false, length = 255)
+        @NotBlank(message = "Please enter your email")
         private String email;
 
         @Column(unique = true, nullable = false, length = 100)
         private String username;
 
         @Column(nullable = false)
+        @NotBlank(message = "Please enter a password")
         private String password;
 
         @Column(nullable = false)
         private java.sql.Date dob;
 
         @Column(nullable = false)
+        @NotBlank(message = "Please select a photo")
         private String photo;
 
         public User() {

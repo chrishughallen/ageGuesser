@@ -10,14 +10,13 @@ import com.chrisallen.guessmyage.services.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -57,8 +56,35 @@ public class UserController {
     public String loggedIn(Model model){
         model.addAttribute("user", userSvc.currentUser());
         model.addAttribute("age", userSvc.getUserAge(userSvc.currentUser()));
+        List<Score> totalGuesses = scoreRepo.findAllByguesser_id(userSvc.currentUser().getId());
+        model.addAttribute("totalGuesses", totalGuesses.size());
+        int correctGuesses = 0;
+        for (Score score : totalGuesses) {
+            if(score.isCorrect()){
+                correctGuesses ++;
+            }
+        }
+        model.addAttribute("correctGuesses", correctGuesses);
+
+        List<Guess>otherGuesses = guessRepo.findAllByUser_id(userSvc.currentUser().getId());
+        int totalAges = 0;
+        for (Guess guess : otherGuesses) {
+            totalAges += guess.getAge();
+        }
+        System.out.println(totalAges);
+        if(totalAges>0){
+            model.addAttribute("howOldUserLooks", totalAges/otherGuesses.size());
+        }
+        model.addAttribute("totalGuessesOfUser", otherGuesses.size());
         return "/welcome";
     }
+
+
+
+
+
+
+
 
 
     @GetMapping("/register")
@@ -68,7 +94,23 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String saveUser(@ModelAttribute User user) throws ParseException {
+    public String saveUser(@Valid User user,
+                           Errors errors,
+                           Model model,
+                           @RequestParam ("email") String username) throws ParseException {
+        if (errors.hasErrors() || user.getDob() == null) {
+            model.addAttribute("errors", errors);
+            model.addAttribute("user", user);
+            model.addAttribute("noDob", true);
+            return "/register";
+        }
+
+        if(userSvc.userExists(username)){
+            model.addAttribute("userExists", true);
+            model.addAttribute("user", user);
+            return "/register";
+        }
+
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
         user.setUsername(user.getEmail());
@@ -76,13 +118,36 @@ public class UserController {
         return "redirect:/login";
     }
 
+
+
+
+
+
+
+
+
+
+
     @GetMapping("/user/{id}")
     public String getUserPage(@PathVariable long id, Model model){
+        if(userSvc.isLoggedIn() && id == userSvc.currentUser().getId()){
+            return "redirect:/welcome";
+        }
         model.addAttribute("user", usersRepo.findById(id));
         model.addAttribute("age", userSvc.getUserAge(usersRepo.findById(id)));
         model.addAttribute("Guess", new Guess());
         return "/userPage";
     }
+
+
+
+
+
+
+
+
+
+
 
     @PostMapping("/guess/{id}")
     public String checkGuess(@PathVariable long id, @ModelAttribute Guess guess, Model model ){
@@ -115,6 +180,9 @@ public class UserController {
     @GetMapping("/randomGuess")
     public String getRandomUser(){
         User user = usersRepo.findById(userSvc.getRandomUserId());
+        if(userSvc.isLoggedIn() && user.getId() == userSvc.currentUser().getId()){
+            return "redirect:/randomGuess";
+        }
         return "redirect:/user/" + user.getId();
     }
 

@@ -9,20 +9,43 @@
 
 <div class="container">
 <main>
-    <h1>You are logged in!</h1>
 
-    <h1><span th:text="${user.username}"></span></h1>
-    <h1><span th:text="${age}"></span></h1>
-    <h1><span th:text="${correctGuesses}"></span></h1>
-    <img th:src="${user.photo}" alt="">
+    <h1>Welcome!</h1>
+    <img class="userImage" th:src="${user.photo}" alt="">
+    <p>You've guessed <span th:text="${totalGuesses}"></span> ages a <span id="score"></span> </p>
+    <p><span th:text="${totalGuessesOfUser}"></span> guesses show look <span th:text="${howOldUserLooks}"></span> on average</p>
+
     <br/>
-    <a th:href="@{/randomGuess}"><h3>Start Guessing!</h3></a>
+    <a th:href="@{/randomGuess}"><button class="btn btn-success form-control">Play!</button></a>
+    <br>
+    <a href="#"><button class="btn btn-warning form-control">Change Photo</button></a>
 
     <form th:action="@{/logout}" th:method="post">
-        <button class="btn btn-danger" style="margin-top: 8px">Logout</button>
+        <button class="btn btn-danger form-control" style="margin-top: 8px">Logout</button>
     </form>
 
 </main>
 </div>
 
 <footer th:replace="partials/footer :: footer"></footer>
+
+
+<script th:inline="javascript">
+
+
+
+    var correctGuesses = /*[[${correctGuesses}]]*/ {};
+    var totalGuesses = /*[[${totalGuesses}]]*/ {};
+    console.log(correctGuesses);
+    console.log(totalGuesses);
+    if(correctGuesses == 0){
+        $('#score').text("0% accuracy")
+    }
+
+    if(correctGuesses>0 && totalGuesses>0) {
+        var score = correctGuesses / totalGuesses;
+        var formattedScore = score.toFixed(2) * 100;
+        $('#score').text(" " + formattedScore.toFixed(0) + "% accuracy")
+    }
+
+</script>
