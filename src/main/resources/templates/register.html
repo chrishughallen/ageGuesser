@@ -25,26 +25,69 @@
     <br/>
 
 
-    <label for="birthYear">Birthday (dd/mm/yyyy)</label>
+    <label for="birthYear">Birthday</label>
     <br/>
     <input class="form-control" id="birthYear" type="date" th:field="*{dob}" />
     <p th:if="${noDob}">Please enter your birthday</p>
-    <p th:if="${underAge}">Sorry, you must be 18 or older to sign up</p>
 
     <br/>
 
-    <label for="photo">Photo</label>
+    <a id="picBtn" class="btn btn-info">Select Photo</a>
     <br/>
-    <input class="form-control" id="photo" type="text" th:field="*{photo}" />
+    <input class="form-control" id="picUrl" type="hidden" th:field="*{photo}" />
+    <p id="picOutcome"></p>
     <p th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></p>
 
     <br/>
-   <button id="signUp" class="btn btn-success">Sign Up!</button>
+   <button type="submit" id="signUp" class="btn btn-success">Sign Up!</button>
 
 </form>
 
+
 </div>
 <footer th:replace="partials/footer :: footer"></footer>
+
+
+
+<script src="https://static.filestackapi.com/v3/filestack.js"></script>
+
+<script>
+
+    var fsClient = filestack.init('ArO5wwodYTviskBP177Jwz');
+
+    $('#picBtn').click(function(){
+        openImagePicker();
+    });
+
+    function openImagePicker() {
+        fsClient.pick({
+            fromSources:["local_file_system", "url", "imagesearch", "facebook", "instagram", "dropbox"],
+            accept:["image/*"],
+            maxFiles:1,
+            maxSize:10485760,
+            transformations: {
+                crop: {
+                    aspectRatio: 1,
+                    force: true
+                },
+                circle:true
+            }
+
+        }).then(function (response) {
+            // declare this function to handle response
+            handleImageFilestack(response);
+        });
+    }
+
+    function handleImageFilestack(response){
+        var picUrl = '' + response.filesUploaded[0].url + ''
+        $('#picUrl').val(picUrl);
+        $('#picOutcome').text('Success!')
+    }
+
+</script>
+
+
 
 </body>
 </html>

@@ -49,11 +49,18 @@ public class UserController {
 
     @GetMapping("/")
     public String home(Model model) {
-        return "redirect:/randomGuess";
+
+        if(userSvc.isLoggedIn()){
+            model.addAttribute("loggedIn", true);
+        }
+        return "/about";
     }
 
     @GetMapping("/welcome")
     public String loggedIn(Model model){
+        if(userSvc.isLoggedIn()){
+            model.addAttribute("loggedIn", true);
+        }
         model.addAttribute("user", userSvc.currentUser());
         model.addAttribute("age", userSvc.getUserAge(userSvc.currentUser()));
         List<Score> totalGuesses = scoreRepo.findAllByguesser_id(userSvc.currentUser().getId());
@@ -89,6 +96,9 @@ public class UserController {
 
     @GetMapping("/register")
     public String showSignupForm(Model model){
+        if(userSvc.isLoggedIn()){
+            model.addAttribute("loggedIn", true);
+        }
         model.addAttribute("user", new User());
         return "register";
     }
@@ -130,6 +140,9 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public String getUserPage(@PathVariable long id, Model model){
+        if(userSvc.isLoggedIn()){
+            model.addAttribute("loggedIn", true);
+        }
         if(userSvc.isLoggedIn() && id == userSvc.currentUser().getId()){
             return "redirect:/welcome";
         }
@@ -152,6 +165,9 @@ public class UserController {
     @PostMapping("/guess/{id}")
     public String checkGuess(@PathVariable long id, @ModelAttribute Guess guess, Model model ){
         if(userSvc.isLoggedIn()){
+            model.addAttribute("loggedIn", true);
+        }
+        if(userSvc.isLoggedIn()){
             Score score = new Score();
             score.setGuesser(userSvc.currentUser());
             score.setGuessee(usersRepo.findById(id));
@@ -163,7 +179,7 @@ public class UserController {
                 score.setCorrect(false);
             }
             scoreRepo.save(score);
-            guess.setUser(userSvc.currentUser());
+            guess.setUser(usersRepo.findById(id));
             guessRepo.save(guess);
 
             return "redirect:/randomGuess";
@@ -179,11 +195,17 @@ public class UserController {
 
     @GetMapping("/randomGuess")
     public String getRandomUser(){
+
         User user = usersRepo.findById(userSvc.getRandomUserId());
         if(userSvc.isLoggedIn() && user.getId() == userSvc.currentUser().getId()){
             return "redirect:/randomGuess";
         }
         return "redirect:/user/" + user.getId();
+    }
+
+    @GetMapping("/about")
+    public String landingPage(){
+        return"/about";
     }
 
 }

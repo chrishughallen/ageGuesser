@@ -10,28 +10,27 @@
 <div class="container">
     <main>
 
-        <img class="userImg" th:src="${user.photo}" alt="">
-        <input placeholder="How old do I look?" class="form-control" id="guess">
-        <br />
-        <!--Button to trigger modal and check guess-->
-        <button data-backdrop="static" data-keyboard="false" id="checkGuess" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Submit</button>
-
-
-    <!--Modal that displays outcome of guess and button to go to next user page - cant be closed-->
-        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div id="outcomeModal" class="modal-content">
-                    <h3 id="outcome" class="text-center"></h3>
-                    <form th:action="@{/guess/{id}(id=${user.id})}" method="POST" th:object="${Guess}">
-                        <button id="resetColorBtn" class="btn btn-success">Next</button>
-                        <input type="hidden" id="age" th:field="*{age}" />
-                    </form>
-                </div>
+        <div class="card text-center" style="width: 18rem;">
+            <img class="card-img-top" th:src="${user.photo}" alt="Card image cap">
+            <div class="card-body">
+                <input placeholder="How old do I look?" class="form-control" id="guess">
+                <button data-backdrop="static" data-keyboard="false" id="checkGuess" type="button" class="btn btn-primary form-control" >Submit</button>
             </div>
         </div>
+            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div id="outcomeModal" class="modal-content">
+                        <h3 id="outcome" class="text-center"></h3>
+                        <form th:action="@{/guess/{id}(id=${user.id})}" method="POST" th:object="${Guess}">
+                            <button id="resetColorBtn" class="btn btn-success">Next</button>
+                            <input type="hidden" id="age" th:field="*{age}" />
+                        </form>
+                    </div>
+                </div>
+            </div>
     </main>
-
 </div>
+
 
 
 
@@ -60,9 +59,11 @@
             });
 
             if (empty) {
-                $('#checkGuess').addClass('disabled'); // updated according to http://stackoverflow.com/questions/7637790/how-to-remove-disabled-attribute-with-jquery-ie
+                $('#checkGuess').addClass('disabled');
+                invalidGuess();
             } else {
-                $('#checkGuess').removeClass('disabled'); // updated according to http://stackoverflow.com/questions/7637790/how-to-remove-disabled-attribute-with-jquery-ie
+                $('#checkGuess').removeClass('disabled');
+                validGuess();
             }
         });
     })();
@@ -71,18 +72,30 @@
     var age = /*[[${age}]]*/ {};
     console.log(age);
 
-    $('#checkGuess').click(function(){
+    function invalidGuess(){
+        $('#checkGuess').off();
+        $('#checkGuess').attr('data-target','');
+        $('#checkGuess').attr('data-toggle', '')
+    }
 
-        if($('#guess').val().length === 0){
-            $('#outcome').text("Wrong! At least guess something!")
-            $('#age').val(0)
-        }
+    function validGuess() {
 
-        if(age == $('#guess').val() ) {
-            $('#outcome').text("CORRECT!");
+        $('#checkGuess').attr('data-target','.bs-example-modal-sm');
+        $('#checkGuess').attr('data-toggle', 'modal')
+
+        $('#checkGuess').on('click', function () {
+
+            if ($('#guess').val().length === 0) {
+                $('#outcome').text("Wrong! At least guess something!")
+                $('#age').val(0)
+            }
+
+            if (age == $('#guess').val()) {
+                $('#outcome').text("CORRECT!");
+                $('#age').val($('#guess').val())
+            }
+            else $('#outcome').text("INCORRECT!")
             $('#age').val($('#guess').val())
-        }
-        else $('#outcome').text("INCORRECT!")
-             $('#age').val($('#guess').val())
-    });
+        });
+    }
 </script>
