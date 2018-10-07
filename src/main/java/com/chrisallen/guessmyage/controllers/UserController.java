@@ -100,11 +100,23 @@ public class UserController {
     public String saveUser(@Valid User user,
                            Errors errors,
                            Model model,
-                           @RequestParam ("email") String username) throws ParseException {
-        if (errors.hasErrors() || user.getDob() == null) {
+                           @RequestParam ("email") String username,
+                           @RequestParam("passwordConfirm") String passwordConfirm) throws ParseException {
+        if (errors.hasErrors()) {
+            model.addAttribute("user", user);
             model.addAttribute("errors", errors);
+            return "/register";
+        }
+
+        if(user.getDob() == null){
             model.addAttribute("user", user);
             model.addAttribute("noDob", true);
+            return "/register";
+        }
+
+        if(!user.getPassword().equals(passwordConfirm)){
+            model.addAttribute("passwordMatchError", true);
+            model.addAttribute("user", user);
             return "/register";
         }
 

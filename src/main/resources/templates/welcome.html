@@ -9,19 +9,22 @@
     <div class="card text-center" style="width: 18rem;">
         <img id="currentUserImg" class="card-img-top" th:src="${user.photo}" alt="Card image cap">
         <div class="card-body">
-            <div id="cancelChange"></div>
+            <div id="cancel"></div>
+            <form id="editPhotoForm" th:action="@{/editPicture}" method="POST">
+                <div id="save"></div>
+                <br/>
+                <div id="editPhotoSubmit"></div>
+                <input name="picUrl" class="form-control" value="picUrl" id="picUrl" type="hidden" />
+                <p id="picOutcome"></p>
+            </form>
+            <a th:href="@{/}"><button class="btn btn-outline-light form-control">Play</button></a>
+            <button class="btn btn-outline-light form-control" data-toggle="collapse" data-target="#navbarSupportedContent">View Stats</button>
+            <button id="editPicBtn" class="btn btn-outline-light form-control">Change Photo</button>
+            <!--<button class="btn btn-outline-light form-control">Change Password</button>-->
         </div>
-        <form th:action="@{/editPicture}" method="POST">
-            <br/>
-            <div id="editPhotoSubmit"></div>
-            <input name="picUrl" class="form-control" value="picUrl" id="picUrl" type="hidden" />
-            <p id="picOutcome"></p>
-        </form>
     </div>
 </main>
 </div>
-
-
 
 <footer th:replace="partials/footer :: footer"></footer>
 <footer th:replace="partials/picEditScript :: picEdit"></footer>

@@ -8,7 +8,7 @@
 
         var fsClient = filestack.init('ArO5wwodYTviskBP177Jwz');
 
-        $('#currentUserImg').click(function(){
+        $('#editPicBtn').click(function(){
             openImagePicker();
         });
 
@@ -35,11 +35,10 @@
         function handleImageFilestack(response){
             var picUrl = '' + response.filesUploaded[0].url + ''
             $('#picUrl').val(picUrl);
-            $('#editPhotoSubmit').html('<button type="submit" class="btn btn-primary">Save</button>')
-            $('#cancelChange').html('<button id="reload" class="btn btn-danger">Cancel</button>')
-            $('#reload').click(function() {
+            $('#save').html('<button type="submit" class="btn btn-success form-control">Save</button>')
+            $('#cancel').html('<button class="btn btn-danger form-control">Cancel</button>').on('click', function(){
                 location.reload();
-            });
+            })
             $('#picBtn').hide();
             $('#currentUserImg').attr('src', picUrl);
         }

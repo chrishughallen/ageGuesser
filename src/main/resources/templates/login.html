@@ -6,6 +6,7 @@
 <nav th:replace="partials/navbar :: navbar"></nav>
 
 <div class="container">
+<div class="registerForm">
 <h1>Log In</h1>
 
 <div th:if="${param.logout}">
@@ -16,18 +17,29 @@
 
 <form th:action="@{/login}" method="post">
 
-    <label for="username">Email</label>
-    <input class="form-control" id="username" name="username" type="text" />
 
-    <label for="password">Password</label>
-    <input class="form-control" id="password" name="password" type="password" />
-    <p th:if="${param.error}">Invalid email or password</p>
+    <div class="input-group mb-3">
+        <input type="email" id="username" name="username" class="form-control" placeholder="email" aria-label="email">
+        <div class="input-group-append">
+            <button class="btn btn-outline-light disabled" type="button"><i class="fas fa-envelope-square"></i></button>
+        </div>
+    </div>
 
-    <input class="btn btn-primary" type="submit" value="Log In" />
+    <div class="input-group mb-3">
+        <input type="password" id="password" name="password" class="form-control" placeholder="password" aria-label="email">
+        <div class="input-group-append">
+            <button class="btn btn-outline-light disabled" type="button"><i class="fas fa-key"></i></button>
+        </div>
+    </div>
+    <p class="error" th:if="${param.error}">Invalid email or password</p>
+
+
+
+    <input class="btn btn-outline-light" type="submit" value="Log In" />
 </form>
 
 <a style="color:white;" th:type="button" href="/register">New user? Sign Up</a>
-
+</div>
 </div>
 
 

@@ -5,30 +5,31 @@
 <body>
 <nav th:replace="partials/navbar :: navbar"></nav>
 
-
-
 <div class="container">
     <main>
         <div class="card text-center" style="width: 18rem;">
             <img class="card-img-top" th:src="${user.photo}" alt="Card image cap">
             <div class="card-body">
                 <form th:action="@{/guess/{id}(id=${user.id})}" method="POST" th:object="${Guess}">
-                    <input type="hidden" id="age" th:field="*{age}" />
-                    <div class="input-group">
-                         <input placeholder="How old do I look?" class="form-control" id="guess">
-                            <div id="submitGuess">
-                             <span class="input-group-btn">
-                                <a id="checkGuess" class="btn btn-success" type="button"><i class="fas fa-check-circle"></i></a>
-                            </span>
+                    <div class="input-group mb-3">
+                        <input type="hidden" id="age" th:field="*{age}" />
+                        <div class="input-group">
+                             <input placeholder="How old do I look?" class="form-control" id="guess">
+                                <div id="submitGuess">
+                                    <div class="input-group-append">
+                                        <a id="checkGuess" class="btn btn-outline-light" type="button"><i class="fas fa-check-circle"></i></a>
+                                    </div>
+                                </div>
                             </div>
-                    </div>
+                         </div>
                     <span class="text-center" id="outcome"></span>
-
                 </form>
             </div>
         </div>
     </main>
 </div>
+
+
 
 
 <footer th:replace="partials/footer :: footer"></footer>

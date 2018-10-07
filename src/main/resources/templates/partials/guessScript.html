@@ -31,23 +31,14 @@
         $('#checkGuess').on('click', function(){
             $('#submitGuess').html('<button id="nextPic" class="btn btn-info"><i class="fas fa-arrow-right"></i></button>');
             $('#age').val($('#guess').val());
+            $('#guess').prop('disabled', 'disabled')
 
-            if(age == $('#guess').val()){
-                $('#outcome').html('<i class="far fa-smile-beam">')
-                $('body').css({
-                    background:'#00C9FF',
-                    background:'-webkit-linear-gradient(to right, #92FE9D, #00C9FF)',
-                    background: 'linear-gradient(to right, #92FE9D, #00C9FF)'
+            if(age == $('#guess').val()) {
+                $('img').toggleClass('correct')
+            }
 
-                })
-
-            } if(age != $('#guess').val()) {
-                $('#outcome').html('<i class="far fa-sad-cry">')
-                $('body').css({
-                    background:'#1D4350',
-                    background: '-webkit-linear-gradient(to right, #A43931, #1D4350)',
-                    background: 'linear-gradient(to right, #A43931, #1D4350)'
-                })
+            if(age != $('#guess').val()) {
+                $('img').toggleClass('incorrect')
             }
         })
     </script>

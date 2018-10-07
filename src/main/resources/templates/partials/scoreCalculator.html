@@ -10,7 +10,7 @@
         console.log(correctGuesses);
         console.log(totalGuesses);
         if(correctGuesses == 0){
-            $('#score').text("0% accuracy")
+            $('#score').text("0%")
         }
 
         if(correctGuesses>0 && totalGuesses>0) {
@@ -18,8 +18,6 @@
             var formattedScore = score.toFixed(2) * 100;
             $('#score').text(" " + formattedScore.toFixed(0) + "%")
         }
-
     </script>
-
 </footer>
 
