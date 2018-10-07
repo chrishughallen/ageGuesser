@@ -1,0 +1,83 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<footer th:fragment="guessScript" class="footer">
+
+    <script th:inline="javascript">
+        function isNumeric(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+
+        //IFFE to make sure a valid guess is in the input field before submit button can be pressed
+        (function() {
+            $('#checkGuess').addClass('disabled');
+            $('#guess').keyup(function() {
+                var empty = false;
+                $('#guess').each(function() {
+                    if ($(this).val() == '' || !isNumeric($(this).val())) {
+                        empty = true;
+                    }
+                });
+                if (empty) {
+                    $('#checkGuess').addClass('disabled');
+                } else {
+                    $('#checkGuess').removeClass('disabled');
+                }
+            });
+        })();
+
+        var age = /*[[${age}]]*/ {};
+        console.log(age);
+        $('#checkGuess').on('click', function(){
+            $('#submitGuess').html('<button id="nextPic" class="btn btn-info"><i class="fas fa-arrow-right"></i></button>');
+            $('#age').val($('#guess').val());
+
+            if(age == $('#guess').val()){
+                $('#outcome').html('<i class="far fa-smile-beam">')
+                $('body').css({
+                    background:'#00C9FF',
+                    background:'-webkit-linear-gradient(to right, #92FE9D, #00C9FF)',
+                    background: 'linear-gradient(to right, #92FE9D, #00C9FF)'
+
+                })
+
+            } if(age != $('#guess').val()) {
+                $('#outcome').html('<i class="far fa-sad-cry">')
+                $('body').css({
+                    background:'#1D4350',
+                    background: '-webkit-linear-gradient(to right, #A43931, #1D4350)',
+                    background: 'linear-gradient(to right, #A43931, #1D4350)'
+                })
+            }
+        })
+    </script>
+
+
+    <script th:inline="javascript">
+
+        $('#guess').on('keyup keypress', function(e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        var correctGuesses = /*[[${correctGuesses}]]*/ {};
+        var totalGuesses = /*[[${totalGuesses}]]*/ {};
+        if(correctGuesses == 0){
+            $('#score').text("0% accuracy")
+        }
+        if(correctGuesses>0 && totalGuesses>0) {
+            var score = correctGuesses / totalGuesses;
+            var formattedScore = score.toFixed(2) * 100;
+            $('#score').text(" " + formattedScore.toFixed(0) + "%")
+        }
+
+    </script>
+
+</footer>
+
+
+<!--</body>-->
+<!--</html>-->

@@ -1,16 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
 
 
-/*body{*/
-    /*!*font-family: Gloria Hallelujah;*!*/
-    /*background: #2196f3;  !* fallback for old browsers *!*/
-    /*background: -webkit-linear-gradient(to right, #f44336, #2196f3);  !* Chrome 10-25, Safari 5.1-6 *!*/
-    /*background: linear-gradient(to right, #f44336, #2196f3); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
-    /*!*color:white;*!*/
-/*}*/
-
 body{
-    background:red;
+    font-family: Gloria Hallelujah;
+    background: #2196f3;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f44336, #2196f3);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f44336, #2196f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.about{
+    width: 60%;
+    margin: 0 auto;
+    text-align: justify-all;
+
 }
 
 
@@ -20,10 +23,42 @@ body{
 
 
 .card-body, .card{
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     margin-top: 10%;
-    background:transparent;
     border: none;
+    padding: 2%;
+    background:transparent;
 }
+
+.correct{
+    background:green;
+}
+
+.incorrect{
+    background:red;
+}
+
+.fa-smile-beam, .fa-sad-cry{
+    margin-top: 5%;
+    font-size: 4em;
+    text-align: center;
+}
+
+#userScore{
+    float: right;
+    padding: 5%;
+}
+
+span.navbar-text{
+    color: black;
+    padding-right: 20px;
+}
+#currentUserImg:hover{
+    cursor: pointer;
+    opacity: .6;
+}
+
+
+
 

@@ -1,46 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/head :: header('Index')">
-
 </head>
-
 <nav th:replace="partials/navbar :: navbar"></nav>
-
 
 <div class="container">
 <main>
-
     <div class="card text-center" style="width: 18rem;">
-        <img class="card-img-top" th:src="${user.photo}" alt="Card image cap">
+        <img id="currentUserImg" class="card-img-top" th:src="${user.photo}" alt="Card image cap">
         <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">You've guessed <span th:text="${totalGuesses}"></span> ages a <span id="score"></span> </p>
-            <p class="card-text"><span th:text="${totalGuessesOfUser}"></span> guesses show look <span th:text="${howOldUserLooks}"></span> on average</p>
-            <a th:href="@{/randomGuess}"><button class="btn btn-success form-control">Play!</button></a>
+            <div id="cancelChange"></div>
         </div>
+        <form th:action="@{/editPicture}" method="POST">
+            <br/>
+            <div id="editPhotoSubmit"></div>
+            <input name="picUrl" class="form-control" value="picUrl" id="picUrl" type="hidden" />
+            <p id="picOutcome"></p>
+        </form>
     </div>
 </main>
 </div>
 
+
+
 <footer th:replace="partials/footer :: footer"></footer>
-
-
-<script th:inline="javascript">
-
-
-
-    var correctGuesses = /*[[${correctGuesses}]]*/ {};
-    var totalGuesses = /*[[${totalGuesses}]]*/ {};
-    console.log(correctGuesses);
-    console.log(totalGuesses);
-    if(correctGuesses == 0){
-        $('#score').text("0% accuracy")
-    }
-
-    if(correctGuesses>0 && totalGuesses>0) {
-        var score = correctGuesses / totalGuesses;
-        var formattedScore = score.toFixed(2) * 100;
-        $('#score').text(" " + formattedScore.toFixed(0) + "% accuracy")
-    }
-
-</script>
+<footer th:replace="partials/picEditScript :: picEdit"></footer>
+<footer th:replace="partials/scoreCalculator :: scoreCalculator"></footer>

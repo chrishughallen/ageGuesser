@@ -46,46 +46,12 @@
 
 </div>
 <footer th:replace="partials/footer :: footer"></footer>
+<footer th:replace="partials/picUpload :: picUpload"></footer>
 
 
 
-<script src="https://static.filestackapi.com/v3/filestack.js"></script>
 
-<script>
 
-    var fsClient = filestack.init('ArO5wwodYTviskBP177Jwz');
-
-    $('#picBtn').click(function(){
-        openImagePicker();
-    });
-
-    function openImagePicker() {
-        fsClient.pick({
-            fromSources:["local_file_system", "url", "imagesearch", "facebook", "instagram", "dropbox"],
-            accept:["image/*"],
-            maxFiles:1,
-            maxSize:10485760,
-            transformations: {
-                crop: {
-                    aspectRatio: 1,
-                    force: true
-                },
-                circle:true
-            }
-
-        }).then(function (response) {
-            // declare this function to handle response
-            handleImageFilestack(response);
-        });
-    }
-
-    function handleImageFilestack(response){
-        var picUrl = '' + response.filesUploaded[0].url + ''
-        $('#picUrl').val(picUrl);
-        $('#picOutcome').text('Success!')
-    }
-
-</script>
 
 
 

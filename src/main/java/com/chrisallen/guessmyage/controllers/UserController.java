@@ -53,7 +53,7 @@ public class UserController {
         if(userSvc.isLoggedIn()){
             model.addAttribute("loggedIn", true);
         }
-        return "/about";
+        return "redirect:/randomGuess";
     }
 
     @GetMapping("/welcome")
@@ -85,13 +85,6 @@ public class UserController {
         model.addAttribute("totalGuessesOfUser", otherGuesses.size());
         return "/welcome";
     }
-
-
-
-
-
-
-
 
 
     @GetMapping("/register")
@@ -130,19 +123,33 @@ public class UserController {
 
 
 
-
-
-
-
-
-
-
-
     @GetMapping("/user/{id}")
     public String getUserPage(@PathVariable long id, Model model){
         if(userSvc.isLoggedIn()){
             model.addAttribute("loggedIn", true);
+            List<Score> totalGuesses = scoreRepo.findAllByguesser_id(userSvc.currentUser().getId());
+            model.addAttribute("totalGuesses", totalGuesses.size());
+            int correctGuesses = 0;
+            for (Score score : totalGuesses) {
+                if(score.isCorrect()){
+                    correctGuesses ++;
+                }
+            }
+            model.addAttribute("correctGuesses", correctGuesses);
+
+            List<Guess>otherGuesses = guessRepo.findAllByUser_id(userSvc.currentUser().getId());
+            int totalAges = 0;
+            for (Guess guess : otherGuesses) {
+                totalAges += guess.getAge();
+            }
+            System.out.println(totalAges);
+            if(totalAges>0){
+                model.addAttribute("howOldUserLooks", totalAges/otherGuesses.size());
+            }
+            model.addAttribute("totalGuessesOfUser", otherGuesses.size());
         }
+
+
         if(userSvc.isLoggedIn() && id == userSvc.currentUser().getId()){
             return "redirect:/welcome";
         }
@@ -163,10 +170,23 @@ public class UserController {
 
 
     @PostMapping("/guess/{id}")
-    public String checkGuess(@PathVariable long id, @ModelAttribute Guess guess, Model model ){
+    public String checkGuess(@PathVariable long id,
+                             @ModelAttribute Guess guess,
+                             Model model ){
+
         if(userSvc.isLoggedIn()){
             model.addAttribute("loggedIn", true);
         }
+
+        if(userSvc.isLoggedIn()){
+            Iterable<Score> scores = scoreRepo.findAll();
+            for (Score score : scores) {
+                if(score.getGuesser().getId() == userSvc.currentUser().getId() && score.getGuessee().getId() == usersRepo.findById(id).getId()) {
+                    return "redirect:/randomGuess";
+                }
+            }
+        }
+
         if(userSvc.isLoggedIn()){
             Score score = new Score();
             score.setGuesser(userSvc.currentUser());
@@ -197,15 +217,25 @@ public class UserController {
     public String getRandomUser(){
 
         User user = usersRepo.findById(userSvc.getRandomUserId());
+
         if(userSvc.isLoggedIn() && user.getId() == userSvc.currentUser().getId()){
             return "redirect:/randomGuess";
         }
+
         return "redirect:/user/" + user.getId();
     }
 
     @GetMapping("/about")
     public String landingPage(){
         return"/about";
+    }
+
+
+    @PostMapping("/editPicture")
+    public String editPic(@RequestParam ("picUrl") String photo){
+        userSvc.currentUser().setPhoto(photo);
+        usersRepo.save(userSvc.currentUser());
+        return"redirect:/welcome";
     }
 
 }

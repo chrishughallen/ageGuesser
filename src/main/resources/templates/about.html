@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/head :: header('About')">
-
+<head th:include="partials/head :: header('About')">
 </head>
 <nav th:replace="partials/navbar :: navbar"></nav>
 
 <div class="container">
-   <div class="row text-center">
-       <div class="col-6">
-           <h3>Welcome to the age guessing app!</h3>
-           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam dicta eum expedita necessitatibus nisi non odit officiis quae sint tempore, ut vel veritatis voluptas. Aspernatur et ipsa laborum molestiae voluptatum?</p>
-           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad atque culpa esse fugiat fugit illum iure laborum nesciunt officia optio, placeat quos recusandae sequi! Accusamus et eum odit repellat vitae.</p>
-           <a th:href="@{/randomGuess}"><button class="btn btn-success">Start Playing!</button></a>
-           <a th:href="@{/register}"><button class="btn btn-success">Sign Up!</button></a>
+    <div class="about">
+   <div class="row">
+       <div class="col-12">
+           <h1>Welcome to the age guessing app!</h1>
+<p>Age Guesser is a simple application that lets you guess other users ages, and see what age people think you are.</p>
+           <p>It's free to play, and only requires an email address, your birthday, and a picture to get started.</p>
+<p>You can guess users ages without signing up, however, if you do <a th:href="@{/register}">sign up</a>, you'll see how accurate you are at guessing, and how old you really look.</p>
+           <a th:href="@{/randomGuess}"><h4>Give it a try!</h4></a>
        </div>
    </div>
+    </div>
 </div>
 
 
