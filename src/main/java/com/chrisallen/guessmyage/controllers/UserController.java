@@ -1,101 +1,72 @@
 package com.chrisallen.guessmyage.controllers;
 
-import com.chrisallen.guessmyage.models.Guess;
-import com.chrisallen.guessmyage.models.Score;
 import com.chrisallen.guessmyage.models.User;
 import com.chrisallen.guessmyage.repositories.GuessRepository;
 import com.chrisallen.guessmyage.repositories.ScoreRepository;
 import com.chrisallen.guessmyage.repositories.UsersRepository;
+import com.chrisallen.guessmyage.services.GuessService;
 import com.chrisallen.guessmyage.services.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import javax.validation.Valid;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 @Controller
 public class UserController {
 
     private UsersRepository usersRepo;
     private UserService userSvc;
+    private GuessService guessSvc;
     private GuessRepository guessRepo;
     private ScoreRepository scoreRepo;
     private PasswordEncoder passwordEncoder;
 
-    Date now = new Date();
-    String pattern = "yyyy-MM-dd";
-    SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-
-
-
-
-    public UserController(UsersRepository usersRepository,
-                          UserService userSvc,
-                          GuessRepository guessRepo,
-                          ScoreRepository scoreRepo,
-                          PasswordEncoder passwordEncoder) {
+    public UserController(UsersRepository usersRepository, UserService userSvc, GuessRepository guessRepo, ScoreRepository scoreRepo, GuessService guessSvc, PasswordEncoder passwordEncoder) {
         this.usersRepo = usersRepository;
         this.userSvc = userSvc;
         this.guessRepo = guessRepo;
         this.scoreRepo = scoreRepo;
         this.passwordEncoder = passwordEncoder;
+        this.guessSvc = guessSvc;
     }
 
 
+//  Default mapping routes to randomGuess game page
     @GetMapping("/")
     public String home(Model model) {
-
-        if(userSvc.isLoggedIn()){
-            model.addAttribute("loggedIn", true);
-        }
+        model.addAttribute("loggedIn", userSvc.isLoggedIn());
         return "redirect:/randomGuess";
     }
 
-    @GetMapping("/welcome")
-    public String loggedIn(Model model){
-        if(userSvc.isLoggedIn()){
-            model.addAttribute("loggedIn", true);
-        }
-        model.addAttribute("user", userSvc.currentUser());
-        model.addAttribute("age", userSvc.getUserAge(userSvc.currentUser()));
-        List<Score> totalGuesses = scoreRepo.findAllByguesser_id(userSvc.currentUser().getId());
-        model.addAttribute("totalGuesses", totalGuesses.size());
-        int correctGuesses = 0;
-        for (Score score : totalGuesses) {
-            if(score.isCorrect()){
-                correctGuesses ++;
-            }
-        }
-        model.addAttribute("correctGuesses", correctGuesses);
-
-        List<Guess>otherGuesses = guessRepo.findAllByUser_id(userSvc.currentUser().getId());
-        int totalAges = 0;
-        for (Guess guess : otherGuesses) {
-            totalAges += guess.getAge();
-        }
-        System.out.println(totalAges);
-        if(totalAges>0){
-            model.addAttribute("howOldUserLooks", totalAges/otherGuesses.size());
-        }
-        model.addAttribute("totalGuessesOfUser", otherGuesses.size());
-        return "/welcome";
-    }
 
 
+
+
+
+
+
+
+//  New User registration form
     @GetMapping("/register")
     public String showSignupForm(Model model){
-        if(userSvc.isLoggedIn()){
-            model.addAttribute("loggedIn", true);
-        }
+        model.addAttribute("loggedIn", userSvc.isLoggedIn());
         model.addAttribute("user", new User());
         return "register";
     }
 
+
+
+
+
+
+
+//  Check registration form for errors and save new User
     @PostMapping("/register")
     public String saveUser(@Valid User user,
                            Errors errors,
@@ -135,106 +106,28 @@ public class UserController {
 
 
 
-    @GetMapping("/user/{id}")
-    public String getUserPage(@PathVariable long id, Model model){
-        if(userSvc.isLoggedIn()){
-            model.addAttribute("loggedIn", true);
-            List<Score> totalGuesses = scoreRepo.findAllByguesser_id(userSvc.currentUser().getId());
-            model.addAttribute("totalGuesses", totalGuesses.size());
-            int correctGuesses = 0;
-            for (Score score : totalGuesses) {
-                if(score.isCorrect()){
-                    correctGuesses ++;
-                }
-            }
-            model.addAttribute("correctGuesses", correctGuesses);
 
-            List<Guess>otherGuesses = guessRepo.findAllByUser_id(userSvc.currentUser().getId());
-            int totalAges = 0;
-            for (Guess guess : otherGuesses) {
-                totalAges += guess.getAge();
-            }
-            System.out.println(totalAges);
-            if(totalAges>0){
-                model.addAttribute("howOldUserLooks", totalAges/otherGuesses.size());
-            }
-            model.addAttribute("totalGuessesOfUser", otherGuesses.size());
+
+
+
+
+
+
+
+//  Successful login from user - directed to their home page
+    @GetMapping("/welcome")
+    public String loggedIn(Model model){
+        User user = userSvc.currentUser();
+        model.addAttribute("loggedIn", userSvc.isLoggedIn());
+        model.addAttribute("user", user);
+        model.addAttribute("age", userSvc.getUserAge(user));
+        model.addAttribute("totalGuesses", guessSvc.getUserTotalGuesses(user).size());
+        model.addAttribute("correctGuesses", guessSvc.getUserCorrectGuesses(guessSvc.getUserTotalGuesses(user)));
+        model.addAttribute("totalGuessesOfUser", guessSvc.totalGuessesOfUsersAge(user));
+        if(guessSvc.totalGuessesOfUsersAge(user)>0){
+            model.addAttribute("howOldUserLooks", guessSvc.findUsersAverageAge(user));
         }
-
-
-        if(userSvc.isLoggedIn() && id == userSvc.currentUser().getId()){
-            return "redirect:/welcome";
-        }
-        model.addAttribute("user", usersRepo.findById(id));
-        model.addAttribute("age", userSvc.getUserAge(usersRepo.findById(id)));
-        model.addAttribute("Guess", new Guess());
-        return "/userPage";
-    }
-
-
-
-
-
-
-
-
-
-
-
-    @PostMapping("/guess/{id}")
-    public String checkGuess(@PathVariable long id,
-                             @ModelAttribute Guess guess,
-                             Model model ){
-
-        if(userSvc.isLoggedIn()){
-            model.addAttribute("loggedIn", true);
-        }
-
-        if(userSvc.isLoggedIn()){
-            Iterable<Score> scores = scoreRepo.findAll();
-            for (Score score : scores) {
-                if(score.getGuesser().getId() == userSvc.currentUser().getId() && score.getGuessee().getId() == usersRepo.findById(id).getId()) {
-                    return "redirect:/randomGuess";
-                }
-            }
-        }
-
-        if(userSvc.isLoggedIn()){
-            Score score = new Score();
-            score.setGuesser(userSvc.currentUser());
-            score.setGuessee(usersRepo.findById(id));
-            score.setAge(guess.getAge());
-            if(guess.getAge() == userSvc.getUserAge(usersRepo.findById(id))){
-                score.setCorrect(true);
-            }
-            if(guess.getAge() != userSvc.getUserAge(usersRepo.findById(id))){
-                score.setCorrect(false);
-            }
-            scoreRepo.save(score);
-            guess.setUser(usersRepo.findById(id));
-            guessRepo.save(guess);
-
-            return "redirect:/randomGuess";
-        }
-
-        if(!userSvc.isLoggedIn()) {
-            User user = usersRepo.findById(id);
-            guess.setUser(usersRepo.findById(id));
-            guessRepo.save(guess);
-        }
-            return "redirect:/randomGuess";
-    }
-
-    @GetMapping("/randomGuess")
-    public String getRandomUser(){
-
-        User user = usersRepo.findById(userSvc.getRandomUserId());
-
-        if(userSvc.isLoggedIn() && user.getId() == userSvc.currentUser().getId()){
-            return "redirect:/randomGuess";
-        }
-
-        return "redirect:/user/" + user.getId();
+        return "/welcome";
     }
 
     @GetMapping("/about")
@@ -243,11 +136,15 @@ public class UserController {
     }
 
 
+
+
     @PostMapping("/editPicture")
     public String editPic(@RequestParam ("picUrl") String photo){
         userSvc.currentUser().setPhoto(photo);
         usersRepo.save(userSvc.currentUser());
         return"redirect:/welcome";
     }
+
+
 
 }

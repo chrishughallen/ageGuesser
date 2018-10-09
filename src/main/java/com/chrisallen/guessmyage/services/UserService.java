@@ -57,11 +57,13 @@ public class UserService {
         return user.getId();
     }
 
-//   public int getCorrectGuesses(User user){
-//        long id = user.getId();
-//        return scoreRepo.findAllByCorrect(id).size();
-//   }
+    public boolean randomUserIsLoggedInUser(long id){
+        return isLoggedIn() && id == currentUser().getId();
+    }
 
+    public int getUsersAgeFromId(long id){
+        return getUserAge(userRepo.findById(id));
+    }
 
 
 }
