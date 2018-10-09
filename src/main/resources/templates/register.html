@@ -2,85 +2,62 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/head :: header('Register')">
 </head>
+<body>
 
-<nav th:replace="partials/navbar :: navbar"></nav>
+    <nav th:replace="partials/navbar :: navbar"></nav>
 
-<div class="container">
-<div class="registerForm">
-<h3 class="text-center">Registration</h3>
-<form th:action="@{/register}" method="POST" th:object="${user}">
-
-
-    <!--EMAIL INPUT FOR REGISTRATION FORM-->
-    <div class="input-group mb-3">
-        <input type="email" id="email" class="form-control" placeholder="email" aria-label="email" th:field="*{email}">
-        <div class="input-group-append">
-            <button class="btn btn-outline-light disabled" type="button"><i class="fas fa-envelope-square"></i></button>
+    <div class="container">
+        <div class="registerForm">
+            <h3 class="text-center">Registration</h3>
+            <form th:action="@{/register}" method="POST" th:object="${user}">
+                <!--EMAIL INPUT FOR REGISTRATION FORM-->
+                <div class="input-group mb-3">
+                    <input type="email" id="email" class="form-control" placeholder="email" aria-label="email" th:field="*{email}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-light disabled" type="button"><i class="fas fa-envelope-square"></i></button>
+                    </div>
+                </div>
+                <p class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                <p class="error" th:if="${userExists}">Sorry, that email address is already in our system</p>
+                <!--PASSWORD INPUT FOR REGISTRATION FORM-->
+                <div class="input-group mb-3">
+                    <input type="password" id="password" class="form-control" placeholder="password" aria-label="password" th:field="*{password}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-light disabled" type="button"><i class="fas fa-key"></i></button>
+                    </div>
+                </div>
+                <p class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                <!--CONFIRM PASSWORD INPUT FOR REGISTRATION FORM-->
+                <div class="input-group mb-3">
+                    <input name="passwordConfirm" type="password" id="passwordConfirm" class="form-control" placeholder="confirm password" aria-label="password">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-light disabled" type="button"><i class="fas fa-key"></i></button>
+                    </div>
+                </div>
+                <p class="error" th:if="${passwordMatchError}">Your passwords do not match</p>
+                <!--BIRTHDAY SELECT FOR REGISTRATION FORM-->
+                <div class="input-group mb-3">
+                    <input type="date" id="birthYear" th:field="*{dob}" class="form-control" placeholder="password" aria-label="password">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-light disabled" type="button"><i class="fas fa-birthday-cake"></i></button>
+                    </div>
+                </div>
+                <p class="error" th:if="${noDob}">Please enter your birthday</p>
+                <!--IMAGE UPLOAD FOR REGISTRATION FORM-->
+                <div class="input-group mb-3">
+                    <input class="form-control" id="picUrl" type="hidden" th:field="*{photo}" />
+                    <a id="picBtn" class="btn btn-outline-light form-control"><i class="fas fa-camera"></i></a>
+                </div>
+                <p id="picOutcome"></p>
+                <p class="error" th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></p>
+                <!--SUBMIT BUTTON FOR REGISTRATION FORM-->
+               <button type="submit" id="signUp" class="btn btn-info form-control">Sign Up!</button>
+            </form>
         </div>
     </div>
-    <p class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-    <p class="error" th:if="${userExists}">Sorry, that email address is already in our system</p>
 
-
-
-
-    <!--PASSWORD INPUT FOR REGISTRATION FORM-->
-    <div class="input-group mb-3">
-        <input type="password" id="password" class="form-control" placeholder="password" aria-label="password" th:field="*{password}">
-        <div class="input-group-append">
-            <button class="btn btn-outline-light disabled" type="button"><i class="fas fa-key"></i></button>
-        </div>
-    </div>
-    <p class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-
-    <div class="input-group mb-3">
-        <input name="passwordConfirm" type="password" id="passwordConfirm" class="form-control" placeholder="confirm password" aria-label="password">
-        <div class="input-group-append">
-            <button class="btn btn-outline-light disabled" type="button"><i class="fas fa-key"></i></button>
-        </div>
-    </div>
-    <p class="error" th:if="${passwordMatchError}">Your passwords do not match</p>
-
-
-
-
-
-    <!--BIRTHDAY SELECT FOR REGISTRATION FORM-->
-    <div class="input-group mb-3">
-        <input type="date" id="birthYear" th:field="*{dob}" class="form-control" placeholder="password" aria-label="password">
-        <div class="input-group-append">
-            <button class="btn btn-outline-light disabled" type="button"><i class="fas fa-birthday-cake"></i></button>
-        </div>
-    </div>
-    <p class="error" th:if="${noDob}">Please enter your birthday</p>
-
-
-    <!--IMAGE UPLOAD FOR REGISTRATION FORM-->
-    <div class="input-group mb-3">
-        <input class="form-control" id="picUrl" type="hidden" th:field="*{photo}" />
-        <a id="picBtn" class="btn btn-outline-light form-control"><i class="fas fa-camera"></i></a>
-    </div>
-    <p id="picOutcome"></p>
-    <p class="error" th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></p>
-
-
-
-
-   <button type="submit" id="signUp" class="btn btn-info form-control">Sign Up!</button>
-
-</form>
-</div>
-
-</div>
-<footer th:replace="partials/footer :: footer"></footer>
-<footer th:replace="partials/picUpload :: picUpload"></footer>
-
-
-
-
-
-
-
+    <footer th:replace="partials/footer :: footer"></footer>
+    <footer th:replace="partials/picUpload :: picUpload"></footer>
 
 </body>
 </html>

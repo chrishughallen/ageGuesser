@@ -36,23 +36,12 @@ public class UserController {
         this.guessSvc = guessSvc;
     }
 
-
-//  Default mapping routes to randomGuess game page
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("loggedIn", userSvc.isLoggedIn());
         return "redirect:/randomGuess";
     }
 
-
-
-
-
-
-
-
-
-//  New User registration form
     @GetMapping("/register")
     public String showSignupForm(Model model){
         model.addAttribute("loggedIn", userSvc.isLoggedIn());
@@ -60,43 +49,28 @@ public class UserController {
         return "register";
     }
 
-
-
-
-
-
-
-//  Check registration form for errors and save new User
     @PostMapping("/register")
-    public String saveUser(@Valid User user,
-                           Errors errors,
-                           Model model,
-                           @RequestParam ("email") String username,
-                           @RequestParam("passwordConfirm") String passwordConfirm) throws ParseException {
+    public String saveUser(@Valid User user, Errors errors, Model model, @RequestParam ("email") String username, @RequestParam("passwordConfirm") String passwordConfirm) throws ParseException {
         if (errors.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("errors", errors);
             return "/register";
         }
-
         if(user.getDob() == null){
             model.addAttribute("user", user);
             model.addAttribute("noDob", true);
             return "/register";
         }
-
         if(!user.getPassword().equals(passwordConfirm)){
             model.addAttribute("passwordMatchError", true);
             model.addAttribute("user", user);
             return "/register";
         }
-
         if(userSvc.userExists(username)){
             model.addAttribute("userExists", true);
             model.addAttribute("user", user);
             return "/register";
         }
-
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
         user.setUsername(user.getEmail());
@@ -104,17 +78,6 @@ public class UserController {
         return "redirect:/login";
     }
 
-
-
-
-
-
-
-
-
-
-
-//  Successful login from user - directed to their home page
     @GetMapping("/welcome")
     public String loggedIn(Model model){
         User user = userSvc.currentUser();
@@ -135,16 +98,10 @@ public class UserController {
         return"/about";
     }
 
-
-
-
     @PostMapping("/editPicture")
     public String editPic(@RequestParam ("picUrl") String photo){
         userSvc.currentUser().setPhoto(photo);
         usersRepo.save(userSvc.currentUser());
         return"redirect:/welcome";
     }
-
-
-
 }
