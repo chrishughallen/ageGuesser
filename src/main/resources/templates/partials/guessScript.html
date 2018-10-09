@@ -14,7 +14,7 @@
             $('#guess').keyup(function() {
                 var empty = false;
                 $('#guess').each(function() {
-                    if ($(this).val() == '' || !isNumeric($(this).val())) {
+                    if ($(this).val() == '' || $(this).val()<1 || $(this).val()>110 || !isNumeric($(this).val())) {
                         empty = true;
                     }
                 });

@@ -61,6 +61,7 @@ public class UserService {
         return isLoggedIn() && id == currentUser().getId();
     }
 
+
     public int getUsersAgeFromId(long id){
         return getUserAge(userRepo.findById(id));
     }
