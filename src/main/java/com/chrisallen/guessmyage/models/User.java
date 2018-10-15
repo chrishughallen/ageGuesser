@@ -30,15 +30,19 @@ public class User {
         @NotBlank(message = "Please select a photo")
         private String photo;
 
+        @Column
+        private String gender;
+
         public User() {
 
         }
 
-        public User(String email, String password, java.sql.Date dob, String photo) {
+        public User(String email, String password, java.sql.Date dob, String photo, String gender) {
                 this.email = email;
                 this.password = password;
                 this.dob = dob;
                 this.photo = photo;
+                this.gender = gender;
         }
 
         public User(User copy) {
@@ -48,6 +52,7 @@ public class User {
                 password = copy.password;
                 dob = copy.dob;
                 photo = copy.photo;
+                gender = copy.gender;
         }
 
         public long getId() {
@@ -85,4 +90,8 @@ public class User {
         public String getPhoto() { return photo; }
 
         public void setPhoto(String photo) { this.photo = photo; }
+
+        public String getGender() { return gender; }
+
+        public void setGender(String gender) { this.gender = gender; }
 }

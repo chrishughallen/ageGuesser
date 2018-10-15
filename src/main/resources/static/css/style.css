@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans|Roboto');
+@import url('https://fonts.googleapis.com/css?family=Architects+Daughter');
+@import url('https://fonts.googleapis.com/css?family=Luckiest+Guy');
 
 
 body{
@@ -8,14 +10,28 @@ body{
     transition:background-color 0.5s ease;
 }
 
+.navbar-brand{
+    font-family:Noto Sans, sans-serif;
+}
+
+
+h1.bigHeader{
+    font-size: 5em;
+    text-align: center;
+    font-family: Architects Daughter, Noto Sans, sans-serif;
+}
+
 .about{
     width: 60%;
     margin: 0 auto;
-    text-align: justify-all;
+    margin-top:10vh;
 }
 
 .card-img-top{
+    width: 60%;
+    height: auto;
     border-radius:50%;
+    margin: 0 auto;
     transition:box-shadow 0.8s ease;
     -webkit-box-shadow: 0px 0px 22px 16px rgba(255,255,255,.3);
     -moz-box-shadow: 0px 0px 22px 16px rgba(255,255,255,.3);
@@ -29,9 +45,9 @@ body{
 }
 
 .correct{
-    -webkit-box-shadow: 0px 0px 22px 16px rgba(59,209,0,1);
-    -moz-box-shadow: 0px 0px 22px 16px rgba(59,209,0,1);
-    box-shadow: 0px 0px 12px 16px rgba(59,209,0,1);
+    -webkit-box-shadow: 0px 0px 22px 16px #28A746;
+    -moz-box-shadow: 0px 0px 22px 16px #28A746;
+    box-shadow: 0px 0px 12px 16px #28A746;
 }
 
 .card-body, .card{
@@ -93,5 +109,51 @@ li>a:hover, .navbar-brand:hover{
 .error{
     color: #ED254E;
 }
+
+
+
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+
+#keypad{
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+
+
+
+.nav-login{
+    margin: 1%;
+}
+
+
+.btn-circle.btn-xl {
+    width: 100px;
+    height: 100px;
+    padding: 10px 16px;
+    font-size: 50px;
+    line-height: 1.33;
+    border-radius: 50%;
+}
+
+/*.blinkMe {*/
+    /*animation: blinker 2s linear infinite;*/
+/*}*/
+
+/*@keyframes blinker {*/
+    /*50% {*/
+        /*opacity: 0;*/
+    /*}*/
+/*}*/
+
 
 

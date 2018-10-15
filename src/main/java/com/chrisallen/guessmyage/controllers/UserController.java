@@ -50,7 +50,14 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String saveUser(@Valid User user, Errors errors, Model model, @RequestParam ("email") String username, @RequestParam("passwordConfirm") String passwordConfirm) throws ParseException {
+    public String saveUser(@Valid User user, Errors errors, Model model, @RequestParam ("email") String username, @RequestParam("passwordConfirm") String passwordConfirm, @RequestParam (required = false, name = "gender") String gender) throws ParseException {
+
+        if(userSvc.getUserAge(user)<18){
+            model.addAttribute("user", user);
+            model.addAttribute("underAge", true);
+            return "/register";
+        }
+g
         if (errors.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("errors", errors);
@@ -74,6 +81,7 @@ public class UserController {
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
         user.setUsername(user.getEmail());
+        user.setGender(gender);
         usersRepo.save(user);
         return "redirect:/login";
     }

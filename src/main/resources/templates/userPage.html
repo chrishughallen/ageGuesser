@@ -15,17 +15,96 @@
                         <input type="hidden" id="age" th:field="*{age}" />
                         <div class="input-group">
                              <input placeholder="How old do I look?" class="form-control" id="guess">
-                                <div id="submitGuess">
-                                    <div class="input-group-append">
-                                        <a id="checkGuess" class="btn btn-outline-light" type="button"><i class="fas fa-check-circle"></i></a>
-                                    </div>
-                                </div>
+                                <!--<div id="submitGuess">-->
+                                    <!--<div class="input-group-append">-->
+                                        <!--<a id="checkGuess" class="btn btn-outline-light" type="button"><i class="fas fa-check-circle"></i></a>-->
+                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                <!--</div>-->
                             </div>
                          </div>
                     <span class="text-center" id="outcome"></span>
+
+                <div id="keypad">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <button type="button" class="btn btn-outline-light btn-lg btn-circle">1</button>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-outline-light btn-lg btn-circle">2</button>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-outline-light btn-lg btn-circle">3</button>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <button type="button" class="btn btn-outline-light btn-lg btn-circle">4</button>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-outline-light btn-lg btn-circle">5</button>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-outline-light btn-lg btn-circle">6</button>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <button type="button" class="btn btn-outline-light btn-lg btn-circle">7</button>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-outline-light btn-lg btn-circle">8</button>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-outline-light btn-lg btn-circle">9</button>
+                        </div>
+                    </div>
+
+                    <br/>
+
+
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <button id="resetBtn" type="button" class="btn btn-danger btn-lg btn-circle"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-outline-light btn-lg btn-circle">0</button>
+                        </div>
+                        <div id="" class="col-4">
+                            <div id="submitGuess">
+                                <button id="checkGuess" type="button" class="btn btn-success btn-lg btn-circle"><i class="fas fa-check"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </form>
+                </div>
+            </div>
+
+
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <p style="color: #000;">Please enter a more reasonable guess</p>
+                        <a href="#"><button class="btn-outline-info">More info</button></a>
+                    </div>
+                </div>
             </div>
         </div>
+
+
+
+
     </main>
 </div>
 
@@ -34,5 +113,6 @@
 
 <footer th:replace="partials/footer :: footer"></footer>
 <footer th:replace="partials/guessScript :: guessScript"></footer>
+
 </body>
 </html>

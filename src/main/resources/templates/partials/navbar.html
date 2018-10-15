@@ -5,7 +5,7 @@
 </head>
 
 <nav th:fragment="navbar" class="navbar navbar-dark bg-dark" style="background-color: rgba(0,0,0,.3);">
-    <a class="navbar-brand" th:href="@{/}">How Old</a>
+    <a class="navbar-brand" th:href="@{/}">myAge</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -22,12 +22,11 @@
                 <a class="nav-link" th:href="@{/register}">Sign Up <span class="sr-only">(current)</span></a>
             </li>
         </ul>
-        <hr />
         <!--User only sees the login form if they are not logged in-->
         <form th:if="!${loggedIn}" class="form-inline my-2 my-lg-0" th:action="@{/login}" method="post">
-
-            <input placeholder="email" class="form-control mr-sm-2" id="username" name="username" type="text" />
-            <input placeholder="password" class="form-control mr-sm-2" id="password" name="password" type="password" />
+            <span class="active navbar-text">Login</span>
+            <input placeholder="email" class="nav-login form-control mr-sm-2" id="username" name="username" type="text" />
+            <input placeholder="password" class="nav-login form-control mr-sm-2" id="password" name="password" type="password" />
 
             <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Login</button>
         </form>

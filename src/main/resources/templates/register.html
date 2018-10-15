@@ -37,12 +37,29 @@
                 <p class="error" th:if="${passwordMatchError}">Your passwords do not match</p>
                 <!--BIRTHDAY SELECT FOR REGISTRATION FORM-->
                 <div class="input-group mb-3">
-                    <input type="date" id="birthYear" th:field="*{dob}" class="form-control" placeholder="password" aria-label="password">
+                    <input type="date" id="birthYear" th:field="*{dob}" class="form-control">
                     <div class="input-group-append">
                         <button class="btn btn-outline-light disabled" type="button"><i class="fas fa-birthday-cake"></i></button>
                     </div>
                 </div>
                 <p class="error" th:if="${noDob}">Please enter your birthday</p>
+
+                <!--GENDER SELECT FOR REGISTRATION FORM -->
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input value="female" id="female" type="radio"  name="gender" class="custom-control-input">
+                    <label for="female" class="custom-control-label" >Female</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input value="male" id="male" type="radio"  name="gender" class="custom-control-input">
+                    <label for="male" class="custom-control-label" >Male</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input value="N/A" id="noGender" type="radio"  name="gender" class="custom-control-input">
+                    <label for="noGender" class="custom-control-label" >No thanks</label>
+                </div>
+                <p class="error" th:if="${underAge}">You must be 18 or older to sign up</p>
+
+
                 <!--IMAGE UPLOAD FOR REGISTRATION FORM-->
                 <div class="input-group mb-3">
                     <input class="form-control" id="picUrl" type="hidden" th:field="*{photo}" />
@@ -50,6 +67,7 @@
                 </div>
                 <p id="picOutcome"></p>
                 <p class="error" th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}"></p>
+
                 <!--SUBMIT BUTTON FOR REGISTRATION FORM-->
                <button type="submit" id="signUp" class="btn btn-info form-control">Sign Up!</button>
             </form>

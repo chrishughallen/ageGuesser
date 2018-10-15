@@ -4,34 +4,45 @@
 <footer th:fragment="guessScript" class="footer">
 
     <script th:inline="javascript">
+
+
         function isNumeric(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
         }
 
         //IFFE to make sure a valid guess is in the input field before submit button can be pressed
         (function() {
-            $('#checkGuess').addClass('disabled');
+            $('#checkGuess').prop('disabled','disabled');
             $('#guess').keyup(function() {
-                var empty = false;
-                $('#guess').each(function() {
-                    if ($(this).val() == '' || $(this).val()<1 || $(this).val()>110 || !isNumeric($(this).val())) {
-                        empty = true;
-                    }
-                });
-                if (empty) {
-                    $('#checkGuess').addClass('disabled');
-                } else {
-                    $('#checkGuess').removeClass('disabled');
-                }
+                checkInputField();
             });
         })();
 
         var age = /*[[${age}]]*/ {};
+
+
         console.log(age);
-        $('#checkGuess').on('click', function(){
-            $('#submitGuess').html('<button id="nextPic" class="btn btn-info"><i class="fas fa-arrow-right"></i></button>');
+
+
+
+
+        $('#checkGuess').on('click', function() {
+            if (age - $('#guess').val() >= 15 || $('#guess').val() - age >= 15) {
+                $('#myModal').modal('show');
+                // alert('Please enter a more reasonable guess')
+                $('#guess').val('');
+                $('#checkGuess').prop('disabled','disabled');
+            }
+            else submitGuess();
+        })
+            // $('#submitGuess').html('<button id="nextPic" class="btn btn-info"><i class="fas fa-arrow-right"></i></button>');
+
+
+            function submitGuess(){
             $('#age').val($('#guess').val());
-            $('#guess').prop('disabled', 'disabled')
+            $('#guess').prop('disabled', 'disabled');
+            $('#resetBtn').prop('disabled', 'disabled');
+            btns.prop('disabled','disabled');
 
             if(age == $('#guess').val()) {
                 $('img').toggleClass('correct')
@@ -40,7 +51,10 @@
             if(age != $('#guess').val()) {
                 $('img').toggleClass('incorrect')
             }
-        })
+            $('#keypad').html('<button id="nextPic" type="submit" class="blinkMe btn btn-success btn-xl btn-circle"><i class="fas fa-arrow-right"></i></button>')
+        }
+
+
     </script>
 
 
@@ -63,6 +77,47 @@
             var score = correctGuesses / totalGuesses;
             var formattedScore = score.toFixed(2) * 100;
             $('#score').text(" " + formattedScore.toFixed(0) + "%")
+        }
+
+
+        var btns = $(".btn-outline-light");
+
+        btns.on("click", function() {
+            if($('#guess').val().length<2) {
+                $('#guess').val($('#guess').val() + $(this).text())
+            }
+
+            // if($('#guess').val().length>1) {
+            //     if (age - $('#guess').val() >= 25 || $('#guess').val() - age >= 25) {
+            //         alert('Way off, please enter a more reasonable guess')
+            //         $('#guess').val('');
+            //     }
+            // }
+        });
+
+        $('#resetBtn').click(function(){
+            $('#guess').val("");
+            checkInputField();
+        });
+
+        btns.click(function() {
+           checkInputField();
+        });
+
+
+
+        function checkInputField(){
+            var empty = false;
+            $('#guess').each(function() {
+                if ($(this).val() == '' || $(this).val()<1 || $(this).val()>110 || !isNumeric($(this).val())) {
+                    empty = true;
+                }
+            });
+            if (empty) {
+                $('#checkGuess').prop('disabled','disabled');
+            } else {
+                $('#checkGuess').prop('disabled',false);
+            }
         }
 
     </script>
