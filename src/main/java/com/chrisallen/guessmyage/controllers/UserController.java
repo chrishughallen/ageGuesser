@@ -57,7 +57,7 @@ public class UserController {
             model.addAttribute("underAge", true);
             return "/register";
         }
-g
+
         if (errors.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("errors", errors);
