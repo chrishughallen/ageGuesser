@@ -25,3 +25,5 @@
 /.nb-gradle/
 
 src/main/resources/application.properties
+
+info.txt
