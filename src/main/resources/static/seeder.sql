@@ -1,8 +1,8 @@
 
 use age_guesser_db;
-DROP table guesses;
-DROP table users;
-DROP table scores;
+# DROP table guesses;
+# DROP table users;
+# DROP table scores;
 
 
 INSERT INTO users(id,email,username,password,dob,photo)
