@@ -61,28 +61,28 @@ public class UserController {
         if(userSvc.getUserAge(user)<18){
             model.addAttribute("user", user);
             model.addAttribute("underAge", true);
-            return "/register";
+            return "redirect:/register";
         }
 
         if (errors.hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("errors", errors);
-            return "/register";
+            return "redirect:/register";
         }
         if(user.getDob() == null){
             model.addAttribute("user", user);
             model.addAttribute("noDob", true);
-            return "/register";
+            return "redirect:/register";
         }
         if(!user.getPassword().equals(passwordConfirm)){
             model.addAttribute("passwordMatchError", true);
             model.addAttribute("user", user);
-            return "/register";
+            return "redirect:/register";
         }
         if(userSvc.userExists(username)){
             model.addAttribute("userExists", true);
             model.addAttribute("user", user);
-            return "/register";
+            return "redirect:/register";
         }
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
@@ -104,7 +104,7 @@ public class UserController {
         if(guessSvc.totalGuessesOfUsersAge(user)>0){
             model.addAttribute("howOldUserLooks", guessSvc.findUsersAverageAge(user));
         }
-        return "/welcome";
+        return "welcome";
     }
 
     @GetMapping("/about")
