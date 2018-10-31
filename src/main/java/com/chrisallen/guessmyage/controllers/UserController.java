@@ -39,7 +39,7 @@ public class UserController {
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("loggedIn", userSvc.isLoggedIn());
-        return "redirect:/register";
+        return "about";
     }
 
     @GetMapping("/register")
@@ -103,7 +103,7 @@ public class UserController {
 
     @GetMapping("/about")
     public String landingPage(){
-        return"/about";
+        return"redirect:/";
     }
 
     @PostMapping("/editPicture")
