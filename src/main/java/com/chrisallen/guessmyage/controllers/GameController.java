@@ -53,7 +53,7 @@ public class GameController {
         model.addAttribute("user", usersRepo.findById(id));
         model.addAttribute("age", userSvc.getUsersAgeFromId(id));
         model.addAttribute("Guess", new Guess());
-        return "/userPage";
+        return "userPage";
     }
 
     @PostMapping("/guess/{id}")
