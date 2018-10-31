@@ -42,6 +42,12 @@ public class UserController {
         return "about";
     }
 
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login";
+    }
+
+
     @GetMapping("/register")
     public String showSignupForm(Model model){
         model.addAttribute("loggedIn", userSvc.isLoggedIn());
