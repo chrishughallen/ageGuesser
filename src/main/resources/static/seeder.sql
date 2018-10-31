@@ -1,12 +1,9 @@
 
-use age_guesser_db;
-DROP table guesses;
-DROP table users;
-DROP table scores;
+use gma_db;
 
 
 INSERT INTO users(id,email,username,password,dob,photo)
-VALUES(1,"dave@gmail.com","dave@gmail.com","$2a$10$Vu..NnZcQ4h6aK.2TEtjXuA8uOzpK8Io6t03Ap8WuUHlwE57AAcZS","1991-01-11","https://fer-uig.glitch.me/"),
+VALUES(21,"dave@gmail.com","dave@gmail.com","$2a$10$Vu..NnZcQ4h6aK.2TEtjXuA8uOzpK8Io6t03Ap8WuUHlwE57AAcZS","1991-01-11","https://fer-uig.glitch.me/"),
   (2,"dave2@gmail.com","dave2@gmail.com","$2a$10$Vu..NnZcQ4h6aK.2TEtjXuA8uOzpK8Io6t03Ap8WuUHlwE57AAcZS","1991-01-11","https://fer-uig.glitch.me/"),
   (3,"dave3@gmail.com","dave3@gmail.com","$2a$10$Vu..NnZcQ4h6aK.2TEtjXuA8uOzpK8Io6t03Ap8WuUHlwE57AAcZS","1990-01-11","https://fer-uig.glitch.me/"),
   (4,"dave4@gmail.com","dave4@gmail.com","$2a$10$Vu..NnZcQ4h6aK.2TEtjXuA8uOzpK8Io6t03Ap8WuUHlwE57AAcZS","1997-01-11","https://fer-uig.glitch.me/"),

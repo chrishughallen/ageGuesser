@@ -21,16 +21,18 @@
             <li th:if="!${loggedIn}"  class="nav-item active">
                 <a class="nav-link" th:href="@{/register}">Sign Up <span class="sr-only">(current)</span></a>
             </li>
+            <li th:if="!${loggedIn}"  class="nav-item active">
+                <a class="nav-link" th:href="@{/login}">Log In <span class="sr-only">(current)</span></a>
+            </li>
         </ul>
-        <!--User only sees the login form if they are not logged in-->
-        <form th:if="!${loggedIn}" class="form-inline my-2 my-lg-0" th:action="@{/login}" method="post">
-            <span class="active navbar-text">Login</span>
-            <input placeholder="email" class="nav-login form-control mr-sm-2" id="username" name="username" type="text" />
-            <input placeholder="password" class="nav-login form-control mr-sm-2" id="password" name="password" type="password" />
+        <!--&lt;!&ndash;User only sees the login form if they are not logged in&ndash;&gt;-->
+        <!--<form th:if="!${loggedIn}" class="form-inline my-2 my-lg-0" th:action="@{/login}" method="post">-->
+            <!--<span class="active navbar-text">Login</span>-->
+            <!--<input placeholder="email" class="nav-login form-control mr-sm-2" id="username" name="username" type="text" />-->
+            <!--<input placeholder="password" class="nav-login form-control mr-sm-2" id="password" name="password" type="password" />-->
 
-            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Login</button>
-        </form>
-
+            <!--<button class="btn btn-outline-info my-2 my-sm-0" type="submit">Login</button>-->
+        <!--</form>-->
         <span th:if="${loggedIn}" class="active navbar-text"><span th:text="${totalGuessesOfUser}"></span> users have guessed your age</span>
         <br/>
         <span th:if="${loggedIn}" class="active navbar-text">On average you look: <span th:text="${howOldUserLooks}"></span> years old</span>
